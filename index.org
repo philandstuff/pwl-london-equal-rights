@@ -1,0 +1,282 @@
+#+TITLE: Equal Rights for Functional Objects
+#+EMAIL: @philandstuff
+#+OPTIONS: reveal_mathjax:t
+#+REVEAL_TRANS:linear
+#+REVEAL_THEME:simple
+
+* overall structure
+
+** i like this paper
+
+** problem: many types of equality
+
+*** sometimes depends on the thing you're comparing
+
+*** sometimes depends on the situation in which you compare things
+
+*** useful & important to be able to compare compound values
+
+*** useful & important to distinguish different objects with same current value
+
+** solution: egal
+
+*** works everywhere
+
+** implications
+
+*** immutability matters
+
+**** immutable views on mutable objects don't cut it
+
+*** mutable lists & sets are rubbish
+
+**** lose much of the utility of having a compound if you can't easily compare it
+
+** extra discussion points
+
+*** distinction between reference equality and extensional equivalence for mutables
+* parking lot
+** user-defined data types
+   - particularly: user types which are extensionally immutable but
+     intensionally mutable
+   - ie can't observe mutability from outside, but mutability occurs
+     inside
+   - classic example: cached hashcode field
+** some objects can be mutable but wrap the same mutable state
+   this cannot be distinguished in practice
+   
+   shows distinction between extensional equality and reference
+     equality
+   
+   reference equality makes a finer distinction than extensional
+       equality
+
+   two conflicting principles:
+
+     need to be able to tell if we are dealing with the "same" object
+     or not (we've already discounted this for immutable objects)
+
+     need to be able to proxy/simulate other objects transparently
+
+** wtfs
+#+BEGIN_SRC python :exports both :session
+  # Python
+  x = 1
+  y = 1
+  x is y
+#+END_SRC
+
+#+RESULTS:
+: True
+
+#+BEGIN_SRC python :exports both :session
+  x = 50001
+  y = 50001
+  x is y
+#+END_SRC
+
+#+RESULTS:
+: False
+
+** sugababes and identity through time
+
+#+BEGIN_SRC ruby
+  require 'set'
+  sugababes = Set.new [:mutya, :keisha, :siobhan]
+
+  sugababes.delete(:siobhan); sugababes.add(:heidi) # 2001
+
+  sugababes.delete(:mutya); sugababes.add(:amelle) # 2005
+
+  sugababes.delete(:keisha); sugababes.add(:jade) # 2009
+
+  new_band = Set.new [:mutya, :keisha, :siobhan] # 2011
+#+END_SRC
+
+** object orientation
+
+What is OO, for the purposes of this talk?
+
+There exist things called /objects/..
+
+which respond to /methods/..
+
+and have /internal state/..
+
+** functional programming
+
+   functions as first-class values
+
+   closures
+
+   
+
+* context
+
+  - This was the early 1990s
+  - OO and FP were both interesting at the time
+
+** after
+
+   - C
+   - C++
+   - Common Lisp (and CLOS)
+   - Scheme
+   - Smalltalk
+   - ML
+
+** but before
+
+   - C# and .NET
+   - Perl (before Perl 4, at least)
+   - Python
+   - Ruby
+   - Java and the other JVM languages
+   - JavaScript
+   - Haskell
+
+* what is the problem?
+  Why does equality matter?
+
+** what is equality anyway?
+
+#+ATTR_HTML: :class reveal
+| C++       | pointer equality, overloaded ~==~ operator            |
+| Lisp      | ~EQ~, ~EQL~, ~EQUAL~, ~EQUALP~, ~STRING=~, ~CHAR=~... |
+| Smalltalk | ~=~, ~==~                                             |
+| Java      | ~==~, ~.equals()~                                     |
+| Perl      | ~==~, ~eq~                                            |
+| Python    | ~==~, ~is~                                            |
+| Ruby      | ~==~, ~eql?~, ~equal?~                                |
+
+
+   if ~x~ is a list ~[1,2,3]~
+
+   and ~y~ is a list ~[1,2,3]~
+
+   /are they the same?/
+** too fine a distinction? too coarse?
+
+   numbers -- EQ
+
+   strings
+
+   "~EQ~ is often too fine, and ~EQUAL~ is often too coarse"
+
+   equality of lists, sets, maps
+
+** map lookup
+
+   map lookup depends on your equality relation
+
+   in Lisp, you need ~EQL~ for numbers but ~EQUAL~ for strings
+
+   this prevents the creation of a single map that takes arbitrary
+   keys
+
+   (useful for generic memoizing function)
+
+** reference equality
+   do ~x~ and ~y~ refer to the same location (i.e. object) in memory?
+
+   (this doesn't even make sense for some ~x~ and ~y~, such as
+   primitive ~int~ and ~float~ values)
+** value equality
+   do ~x~ and ~y~ have the same value?
+
+#+ATTR_REVEAL: :frag t
+   (at this moment in time)?
+
+** bitwise equality
+   reference equality for pointers
+
+   value equality for primitive types
+
+   Java's ~==~, Lisp's ~EQ~, Ruby's ~equal?~
+
+#+ATTR_REVEAL: :frag t
+   efficiently maps to native machine instructions
+
+#+ATTR_REVEAL: :frag t
+   semantically problematic
+
+** user-defined equality
+   give every object an ~equal~ method that the user can override
+** operational equivalence
+   can I distinguish ~x~ and ~y~ by calling methods on them?
+
+   /extensional equivalence/
+
+   (oppose /intensional equivalence/)
+
+   black box vs white box
+** identity of indiscernables
+   If there's no way to tell the difference between $x$ and $y$, then
+   $x = y$
+#+ATTR_REVEAL: :frag t   
+   if $x$ is a pink unicorn and $y$ is a green unicorn, they are not
+   the same, because $x$ is pink and $y$ is not pink
+#+ATTR_REVEAL: :frag t
+what about the /invisible pink unicorn/?
+
+#+BEGIN_NOTES
+(we know that she is invisible, because we can't see her; we have faith that she is pink)
+
+the invisible pink unicorn is indiscernible from the invisible green unicorn
+
+therefore, they are the same thing
+#+END_NOTES
+
+** pedagogical example
+
+   (see ~eq-cons~ on p3 of the paper)
+
+#+BEGIN_SRC ruby :exports both :results output
+  def same?(x,y)
+    saved_head = x[0]
+    x[0] = BasicObject.new
+    x[0] == y[0]
+  ensure
+    x[0] = saved_head
+  end
+
+  x = ["a"]; y = ["a"]
+
+  puts "x=x: #{same?(x,x)}"
+  puts "x=y: #{same?(x,y)}"
+#+END_SRC
+
+#+RESULTS:
+: x=x: true
+: x=y: false
+
+* what do we want equality to achieve in our model?
+  - equivalence relation (ie reflexive, symmetric, transitive)
+  - models object identity
+    - an object's identity doesn't change when its state changes
+  - doesn't distinguish between things not in our model
+* aside: equivalence relation
+reflexive:
+
+$$ a \equiv a $$
+
+symmetric:
+
+$$ a \equiv b \implies b \equiv a $$
+
+transitive:
+
+$$ a \equiv b \land b \equiv c $$
+
+$$ \implies a \equiv c $$
+
+Partitions the universe into /equivalence classes/
+** symmetry causes particular problems for inheritance
+
+If $B$ is a subclass of $A$, and $A \equiv B$, does $B \equiv A$?
+* what is the solution?
+* why is this the right solution?
+* what are the implications?
+* any other worries?
+** laziness
+** performance cost of traversing large data structures
