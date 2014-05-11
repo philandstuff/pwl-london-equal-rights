@@ -9,27 +9,39 @@
 
 * overall structure
 
-** i like this paper
+** introduction
 
-*** it's about working with OO and FP
+*** why do I love this paper?
 
-**** this is an interesting and appropriate thing to explore right now
+#+BEGIN_NOTES
+It's about languages with OO and FP aspects
 
-*** it was at an interesting time
-
-**** before most languages we use today were invented
+it was an interesting time -- before most languages we use today were invented
+#+END_NOTES
 
 ** problem: many types of equality
 
-*** sometimes depends on the thing you're comparing
+big table here
 
-*** sometimes depends on the situation in which you compare things
+** oo semantics and object identity
 
-*** useful & important to be able to compare compound values
+sugababes to illustrate identity?
 
-*** useful & important to distinguish different objects with same current value
+*** which equality predicate to use?
 
-*** useful & important to have a single equality predicate to perform these jobs
+**** depends on the thing you're comparing
+
+**** depends on the situation in which you compare things
+
+*** what do we really want from equality?
+
+**** useful & important to be able to compare compound values
+
+eg http requests -- "is this in my cache"?
+
+**** useful & important to distinguish different objects with same current value
+
+**** useful & important to have a single equality predicate to perform these jobs
 
 ** solution: egal
 
@@ -56,6 +68,7 @@
 *** laziness
 *** abstract data types & user-defined equality
 * parking lot
+
 ** user-defined data types
    - particularly: user types which are extensionally immutable but
      intensionally mutable
