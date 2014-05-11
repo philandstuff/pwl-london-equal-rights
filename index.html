@@ -37,7 +37,13 @@
 <a href="#sec-1-1">introduction</a>
 <ul>
 <li>
-<a href="#sec-1-1-1">why do I love this paper?</a>
+<a href="#sec-1-1-1">how did I find this paper?</a>
+</li>
+<li>
+<a href="#sec-1-1-2">why do I love this paper?</a>
+</li>
+<li>
+<a href="#sec-1-1-3">why do I love this paper?</a>
 </li>
 </ul>
 <li>
@@ -74,10 +80,10 @@
 </li>
 </ul>
 <li>
-<a href="#sec-1-6">extra discussion points</a>
+<a href="#sec-1-6">questions for the</a>
 <ul>
 <li>
-<a href="#sec-1-6-1">distinction between reference equality and extensional equivalence for mutables</a>
+<a href="#sec-1-6-1">reference equality isn't perfect for mutable objects</a>
 </li>
 <li>
 <a href="#sec-1-6-2">laziness</a>
@@ -85,27 +91,27 @@
 <li>
 <a href="#sec-1-6-3">abstract data types &amp; user-defined equality</a>
 </li>
+<li>
+<a href="#sec-1-6-4">closures and data defined using them</a>
+</li>
 </ul>
 <li>
 <a href="#sec-2">parking lot</a>
 <ul>
 <li>
-<a href="#sec-2-1">user-defined data types</a>
+<a href="#sec-2-1">some objects can be mutable but wrap the same mutable state</a>
 </li>
 <li>
-<a href="#sec-2-2">some objects can be mutable but wrap the same mutable state</a>
+<a href="#sec-2-2">wtfs</a>
 </li>
 <li>
-<a href="#sec-2-3">wtfs</a>
+<a href="#sec-2-3">sugababes and identity through time</a>
 </li>
 <li>
-<a href="#sec-2-4">sugababes and identity through time</a>
+<a href="#sec-2-4">object orientation</a>
 </li>
 <li>
-<a href="#sec-2-5">object orientation</a>
-</li>
-<li>
-<a href="#sec-2-6">functional programming</a>
+<a href="#sec-2-5">functional programming</a>
 </li>
 </ul>
 <li>
@@ -194,8 +200,24 @@
 </section>
 <section id="sec-1-1-1" >
 
+<h4>how did I find this paper?</h4>
+
+</section>
+<section id="sec-1-1-2" >
+
 <h4>why do I love this paper?</h4>
-<aside class="notes">
+<p>
+It's well written and clear
+</p>
+
+<p>
+It has one core idea that it explores in hundreds of examples
+</p>
+
+</section>
+<section id="sec-1-1-3" >
+
+<h4>why do I love this paper?</h4>
 <p>
 It's about languages with OO and FP aspects
 </p>
@@ -203,7 +225,6 @@ It's about languages with OO and FP aspects
 <p>
 it was an interesting time &#x2013; before most languages we use today were invented
 </p>
-</aside>
 </section>
 
 </section>
@@ -288,11 +309,17 @@ eg http requests &#x2013; "is this in my cache"?
 <section>
 <section id="sec-1-6" >
 
-<h3>extra discussion points</h3>
+<h3>questions for the</h3>
 </section>
 <section id="sec-1-6-1" >
 
-<h4>distinction between reference equality and extensional equivalence for mutables</h4>
+<h4>reference equality isn't perfect for mutable objects</h4>
+<aside class="notes">
+<p>
+conflict: can't have reference equality and the ability to simulate other objects
+</p>
+</aside>
+
 </section>
 <section id="sec-1-6-2" >
 
@@ -301,33 +328,20 @@ eg http requests &#x2013; "is this in my cache"?
 <section id="sec-1-6-3" >
 
 <h4>abstract data types &amp; user-defined equality</h4>
+<ul class="org-ul"><li class="fragment none">classic problem with cached hashcode field as a perf optimization<br/></li></ul>
+</section>
+<section id="sec-1-6-4" >
+
+<h4>closures and data defined using them</h4>
+<ul class="org-ul"><li class="fragment none">applies equally to anonymous inner classes<br/></li></ul>
 </section>
 </section>
 <section id="sec-2" >
 
 <h2>parking lot</h2>
-<img src="hello-world.png" alt="hello-world.png" />
-
-
 </section>
 <section>
 <section id="sec-2-1" >
-
-<h3>user-defined data types</h3>
-<ul class="org-ul">
-<li>particularly: user types which are extensionally immutable but
-intensionally mutable
-</li>
-<li>ie can't observe mutability from outside, but mutability occurs
-inside
-</li>
-<li>classic example: cached hashcode field
-</li>
-</ul>
-</section>
-</section>
-<section>
-<section id="sec-2-2" >
 
 <h3>some objects can be mutable but wrap the same mutable state</h3>
 <p>
@@ -360,7 +374,7 @@ need to be able to proxy/simulate other objects transparently
 
 </section>
 <section>
-<section id="sec-2-3" >
+<section id="sec-2-2" >
 
 <h3>wtfs</h3>
 <div class="org-src-container">
@@ -391,7 +405,7 @@ False
 
 </section>
 <section>
-<section id="sec-2-4" >
+<section id="sec-2-3" >
 
 <h3>sugababes and identity through time</h3>
 <div class="org-src-container">
@@ -412,7 +426,7 @@ new_band = <span style="color: #228b22;">Set</span>.new [<span style="color: #00
 
 </section>
 <section>
-<section id="sec-2-5" >
+<section id="sec-2-4" >
 
 <h3>object orientation</h3>
 <p>
@@ -434,7 +448,7 @@ and have <i>internal state</i>..
 
 </section>
 <section>
-<section id="sec-2-6" >
+<section id="sec-2-5" >
 
 <h3>functional programming</h3>
 <p>

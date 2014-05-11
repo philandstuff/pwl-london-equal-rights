@@ -11,13 +11,19 @@
 
 ** introduction
 
+*** how did I find this paper?
+
 *** why do I love this paper?
 
-#+BEGIN_NOTES
+It's well written and clear
+
+It has one core idea that it explores in hundreds of examples
+
+*** why do I love this paper?
+
 It's about languages with OO and FP aspects
 
 it was an interesting time -- before most languages we use today were invented
-#+END_NOTES
 
 ** problem: many types of equality
 
@@ -55,7 +61,6 @@ eg http requests -- "is this in my cache"?
 
 **** immutable objects with references to mutable components
 ** implications
-
 *** immutability matters
 
 **** immutable views on mutable objects don't cut it
@@ -63,18 +68,20 @@ eg http requests -- "is this in my cache"?
 *** mutable lists & sets are rubbish
 
 **** lose much of the utility of having a compound if you can't easily compare it
-** extra discussion points
-*** distinction between reference equality and extensional equivalence for mutables
+** questions for the
+*** reference equality isn't perfect for mutable objects
+
+#+BEGIN_NOTES
+conflict: can't have reference equality and the ability to simulate other objects
+#+END_NOTES
+
 *** laziness
 *** abstract data types & user-defined equality
+**** classic problem with cached hashcode field as a perf optimization
+*** closures and data defined using them
+**** applies equally to anonymous inner classes
 * parking lot
 
-** user-defined data types
-   - particularly: user types which are extensionally immutable but
-     intensionally mutable
-   - ie can't observe mutability from outside, but mutability occurs
-     inside
-   - classic example: cached hashcode field
 ** some objects can be mutable but wrap the same mutable state
    this cannot be distinguished in practice
    
