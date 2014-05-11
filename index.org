@@ -1,12 +1,23 @@
 #+TITLE: Equal Rights for Functional Objects
-#+EMAIL: @philandstuff
-#+OPTIONS: reveal_mathjax:t
+#+AUTHOR: Henry Baker
+#+EMAIL: Philip Potter - @philandstuff
+#+OPTIONS: reveal_mathjax:t reveal_history:t num:nil
+#+REVEAL_HLEVEL:2
+#+REVEAL_ROOT:.
 #+REVEAL_TRANS:linear
 #+REVEAL_THEME:simple
 
 * overall structure
 
 ** i like this paper
+
+*** it's about working with OO and FP
+
+**** this is an interesting and appropriate thing to explore right now
+
+*** it was at an interesting time
+
+**** before most languages we use today were invented
 
 ** problem: many types of equality
 
@@ -18,10 +29,19 @@
 
 *** useful & important to distinguish different objects with same current value
 
+*** useful & important to have a single equality predicate to perform these jobs
+
 ** solution: egal
 
 *** works everywhere
 
+*** examples
+
+**** mutable objects
+
+**** immutable objects
+
+**** immutable objects with references to mutable components
 ** implications
 
 *** immutability matters
@@ -31,10 +51,10 @@
 *** mutable lists & sets are rubbish
 
 **** lose much of the utility of having a compound if you can't easily compare it
-
 ** extra discussion points
-
 *** distinction between reference equality and extensional equivalence for mutables
+*** laziness
+*** abstract data types & user-defined equality
 * parking lot
 ** user-defined data types
    - particularly: user types which are extensionally immutable but
@@ -149,6 +169,7 @@ and have /internal state/..
 | Python    | ~==~, ~is~                                            |
 | Ruby      | ~==~, ~eql?~, ~equal?~                                |
 
+#+REVEAL: split
 
    if ~x~ is a list ~[1,2,3]~
 
