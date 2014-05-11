@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Equal Rights for Functional Objects</title>
+<meta name="author" content="(Henry Baker)"/>
+<link rel="stylesheet" href="./css/reveal.min.css"/>
+<link rel="stylesheet" href="./css/theme/simple.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Equal Rights for Functional Objects</h1>
+<h2>Henry Baker</h2>
+<h2><a href="mailto:Philip Potter - @philandstuff">Philip Potter - @philandstuff</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">overall structure</a>
+<ul>
+<li>
+<a href="#sec-1-1">i like this paper</a>
+<ul>
+<li>
+<a href="#sec-1-1-1">it's about working with OO and FP</a>
+</li>
+<li>
+<a href="#sec-1-1-2">it was at an interesting time</a>
+</li>
+</ul>
+<li>
+<a href="#sec-1-2">problem: many types of equality</a>
+<ul>
+<li>
+<a href="#sec-1-2-1">sometimes depends on the thing you're comparing</a>
+</li>
+<li>
+<a href="#sec-1-2-2">sometimes depends on the situation in which you compare things</a>
+</li>
+<li>
+<a href="#sec-1-2-3">useful &amp; important to be able to compare compound values</a>
+</li>
+<li>
+<a href="#sec-1-2-4">useful &amp; important to distinguish different objects with same current value</a>
+</li>
+<li>
+<a href="#sec-1-2-5">useful &amp; important to have a single equality predicate to perform these jobs</a>
+</li>
+</ul>
+<li>
+<a href="#sec-1-3">solution: egal</a>
+<ul>
+<li>
+<a href="#sec-1-3-1">works everywhere</a>
+</li>
+<li>
+<a href="#sec-1-3-2">examples</a>
+</li>
+</ul>
+<li>
+<a href="#sec-1-4">implications</a>
+<ul>
+<li>
+<a href="#sec-1-4-1">immutability matters</a>
+</li>
+<li>
+<a href="#sec-1-4-2">mutable lists &amp; sets are rubbish</a>
+</li>
+</ul>
+<li>
+<a href="#sec-1-5">extra discussion points</a>
+<ul>
+<li>
+<a href="#sec-1-5-1">distinction between reference equality and extensional equivalence for mutables</a>
+</li>
+<li>
+<a href="#sec-1-5-2">laziness</a>
+</li>
+<li>
+<a href="#sec-1-5-3">abstract data types &amp; user-defined equality</a>
+</li>
+</ul>
+<li>
+<a href="#sec-2">parking lot</a>
+<ul>
+<li>
+<a href="#sec-2-1">user-defined data types</a>
+</li>
+<li>
+<a href="#sec-2-2">some objects can be mutable but wrap the same mutable state</a>
+</li>
+<li>
+<a href="#sec-2-3">wtfs</a>
+</li>
+<li>
+<a href="#sec-2-4">sugababes and identity through time</a>
+</li>
+<li>
+<a href="#sec-2-5">object orientation</a>
+</li>
+<li>
+<a href="#sec-2-6">functional programming</a>
+</li>
+</ul>
+<li>
+<a href="#sec-3">context</a>
+<ul>
+<li>
+<a href="#sec-3-1">after</a>
+</li>
+<li>
+<a href="#sec-3-2">but before</a>
+</li>
+</ul>
+<li>
+<a href="#sec-4">what is the problem?</a>
+<ul>
+<li>
+<a href="#sec-4-1">what is equality anyway?</a>
+</li>
+<li>
+<a href="#sec-4-2">too fine a distinction? too coarse?</a>
+</li>
+<li>
+<a href="#sec-4-3">map lookup</a>
+</li>
+<li>
+<a href="#sec-4-4">reference equality</a>
+</li>
+<li>
+<a href="#sec-4-5">value equality</a>
+</li>
+<li>
+<a href="#sec-4-6">bitwise equality</a>
+</li>
+<li>
+<a href="#sec-4-7">user-defined equality</a>
+</li>
+<li>
+<a href="#sec-4-8">operational equivalence</a>
+</li>
+<li>
+<a href="#sec-4-9">identity of indiscernables</a>
+</li>
+<li>
+<a href="#sec-4-10">pedagogical example</a>
+</li>
+</ul>
+<li>
+<a href="#sec-5">what do we want equality to achieve in our model?</a>
+</li>
+<li>
+<a href="#sec-6">aside: equivalence relation</a>
+<ul>
+<li>
+<a href="#sec-6-1">symmetry causes particular problems for inheritance</a>
+</li>
+</ul>
+<li>
+<a href="#sec-7">what is the solution?</a>
+</li>
+<li>
+<a href="#sec-8">why is this the right solution?</a>
+</li>
+<li>
+<a href="#sec-9">what are the implications?</a>
+</li>
+<li>
+<a href="#sec-10">any other worries?</a>
+<ul>
+<li>
+<a href="#sec-10-1">laziness</a>
+</li>
+<li>
+<a href="#sec-10-2">performance cost of traversing large data structures</a>
+</li>
+</ul>
+</section>
+
+<section id="sec-1" >
+
+<h2>overall structure</h2>
+</section>
+<section>
+<section id="sec-1-1" >
+
+<h3>i like this paper</h3>
+</section>
+<section id="sec-1-1-1" >
+
+<h4>it's about working with OO and FP</h4>
+<ul class="org-ul"><li class="fragment none">this is an interesting and appropriate thing to explore right now<br/></li></ul>
+
+</section>
+<section id="sec-1-1-2" >
+
+<h4>it was at an interesting time</h4>
+<ul class="org-ul"><li class="fragment none">before most languages we use today were invented<br/></li></ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-2" >
+
+<h3>problem: many types of equality</h3>
+</section>
+<section id="sec-1-2-1" >
+
+<h4>sometimes depends on the thing you're comparing</h4>
+
+</section>
+<section id="sec-1-2-2" >
+
+<h4>sometimes depends on the situation in which you compare things</h4>
+
+</section>
+<section id="sec-1-2-3" >
+
+<h4>useful &amp; important to be able to compare compound values</h4>
+
+</section>
+<section id="sec-1-2-4" >
+
+<h4>useful &amp; important to distinguish different objects with same current value</h4>
+
+</section>
+<section id="sec-1-2-5" >
+
+<h4>useful &amp; important to have a single equality predicate to perform these jobs</h4>
+</section>
+
+</section>
+<section>
+<section id="sec-1-3" >
+
+<h3>solution: egal</h3>
+</section>
+<section id="sec-1-3-1" >
+
+<h4>works everywhere</h4>
+
+</section>
+<section id="sec-1-3-2" >
+
+<h4>examples</h4>
+<ul class="org-ul"><li class="fragment none">mutable objects<br/></li>
+
+<li class="fragment none">immutable objects<br/></li>
+
+<li class="fragment none">immutable objects with references to mutable components<br/></li></ul>
+</section>
+</section>
+<section>
+<section id="sec-1-4" >
+
+<h3>implications</h3>
+</section>
+<section id="sec-1-4-1" >
+
+<h4>immutability matters</h4>
+<ul class="org-ul"><li class="fragment none">immutable views on mutable objects don't cut it<br/></li></ul>
+
+</section>
+<section id="sec-1-4-2" >
+
+<h4>mutable lists &amp; sets are rubbish</h4>
+<ul class="org-ul"><li class="fragment none">lose much of the utility of having a compound if you can't easily compare it<br/></li></ul>
+</section>
+</section>
+<section>
+<section id="sec-1-5" >
+
+<h3>extra discussion points</h3>
+</section>
+<section id="sec-1-5-1" >
+
+<h4>distinction between reference equality and extensional equivalence for mutables</h4>
+</section>
+<section id="sec-1-5-2" >
+
+<h4>laziness</h4>
+</section>
+<section id="sec-1-5-3" >
+
+<h4>abstract data types &amp; user-defined equality</h4>
+</section>
+</section>
+<section id="sec-2" >
+
+<h2>parking lot</h2>
+</section>
+<section>
+<section id="sec-2-1" >
+
+<h3>user-defined data types</h3>
+<ul class="org-ul">
+<li>particularly: user types which are extensionally immutable but
+intensionally mutable
+</li>
+<li>ie can't observe mutability from outside, but mutability occurs
+inside
+</li>
+<li>classic example: cached hashcode field
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-2-2" >
+
+<h3>some objects can be mutable but wrap the same mutable state</h3>
+<p>
+this cannot be distinguished in practice
+</p>
+
+<p>
+shows distinction between extensional equality and reference
+  equality
+</p>
+
+<p>
+reference equality makes a finer distinction than extensional
+    equality
+</p>
+
+<p>
+two conflicting principles:
+</p>
+
+<p>
+need to be able to tell if we are dealing with the "same" object
+or not (we've already discounted this for immutable objects)
+</p>
+
+<p>
+need to be able to proxy/simulate other objects transparently
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-2-3" >
+
+<h3>wtfs</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Python</span>
+<span style="color: #a0522d;">x</span> = 1
+<span style="color: #a0522d;">y</span> = 1
+x <span style="color: #a020f0;">is</span> y
+</pre>
+</div>
+
+<pre class="example">
+True
+</pre>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #a0522d;">x</span> = 50001
+<span style="color: #a0522d;">y</span> = 50001
+x <span style="color: #a020f0;">is</span> y
+</pre>
+</div>
+
+<pre class="example">
+False
+</pre>
+</section>
+
+</section>
+<section>
+<section id="sec-2-4" >
+
+<h3>sugababes and identity through time</h3>
+<div class="org-src-container">
+
+<pre  class="src src-ruby">require <span style="color: #8b2252;">'set'</span>
+sugababes = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>]
+
+sugababes.delete(<span style="color: #008b8b;">:siobhan</span>); sugababes.add(<span style="color: #008b8b;">:heidi</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2001</span>
+
+sugababes.delete(<span style="color: #008b8b;">:mutya</span>); sugababes.add(<span style="color: #008b8b;">:amelle</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2005</span>
+
+sugababes.delete(<span style="color: #008b8b;">:keisha</span>); sugababes.add(<span style="color: #008b8b;">:jade</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2009</span>
+
+new_band = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>] <span style="color: #b22222;"># </span><span style="color: #b22222;">2011</span>
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-2-5" >
+
+<h3>object orientation</h3>
+<p>
+What is OO, for the purposes of this talk?
+</p>
+
+<p>
+There exist things called <i>objects</i>..
+</p>
+
+<p>
+which respond to <i>methods</i>..
+</p>
+
+<p>
+and have <i>internal state</i>..
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-2-6" >
+
+<h3>functional programming</h3>
+<p>
+functions as first-class values
+</p>
+
+<p>
+closures
+</p>
+</section>
+
+
+
+</section>
+<section id="sec-3" >
+
+<h2>context</h2>
+<ul class="org-ul">
+<li>This was the early 1990s
+</li>
+<li>OO and FP were both interesting at the time
+</li>
+</ul>
+
+</section>
+<section>
+<section id="sec-3-1" >
+
+<h3>after</h3>
+<ul class="org-ul">
+<li>C
+</li>
+<li>C++
+</li>
+<li>Common Lisp (and CLOS)
+</li>
+<li>Scheme
+</li>
+<li>Smalltalk
+</li>
+<li>ML
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-2" >
+
+<h3>but before</h3>
+<ul class="org-ul">
+<li>C# and .NET
+</li>
+<li>Perl (before Perl 4, at least)
+</li>
+<li>Python
+</li>
+<li>Ruby
+</li>
+<li>Java and the other JVM languages
+</li>
+<li>JavaScript
+</li>
+<li>Haskell
+</li>
+</ul>
+</section>
+
+</section>
+<section id="sec-4" >
+
+<h2>what is the problem?</h2>
+<p>
+Why does equality matter?
+</p>
+
+</section>
+<section>
+<section id="sec-4-1" >
+
+<h3>what is equality anyway?</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" class="reveal">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">C++</td>
+<td class="left">pointer equality, overloaded <code>==</code> operator</td>
+</tr>
+
+<tr>
+<td class="left">Lisp</td>
+<td class="left"><code>EQ</code>, <code>EQL</code>, <code>EQUAL</code>, <code>EQUALP</code>, <code>STRING=</code>, <code>CHAR=</code>&#x2026;</td>
+</tr>
+
+<tr>
+<td class="left">Smalltalk</td>
+<td class="left"><code>=</code>, <code>==</code></td>
+</tr>
+
+<tr>
+<td class="left">Java</td>
+<td class="left"><code>==</code>, <code>.equals()</code></td>
+</tr>
+
+<tr>
+<td class="left">Perl</td>
+<td class="left"><code>==</code>, <code>eq</code></td>
+</tr>
+
+<tr>
+<td class="left">Python</td>
+<td class="left"><code>==</code>, <code>is</code></td>
+</tr>
+
+<tr>
+<td class="left">Ruby</td>
+<td class="left"><code>==</code>, <code>eql?</code>, <code>equal?</code></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section>
+
+<p>
+if <code>x</code> is a list <code>[1,2,3]</code>
+</p>
+
+<p>
+and <code>y</code> is a list <code>[1,2,3]</code>
+</p>
+
+<p>
+<i>are they the same?</i>
+</p>
+</section>
+</section>
+<section>
+<section id="sec-4-2" >
+
+<h3>too fine a distinction? too coarse?</h3>
+<p>
+numbers &#x2013; EQ
+</p>
+
+<p>
+strings
+</p>
+
+<p>
+"<code>EQ</code> is often too fine, and <code>EQUAL</code> is often too coarse"
+</p>
+
+<p>
+equality of lists, sets, maps
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-4-3" >
+
+<h3>map lookup</h3>
+<p>
+map lookup depends on your equality relation
+</p>
+
+<p>
+in Lisp, you need <code>EQL</code> for numbers but <code>EQUAL</code> for strings
+</p>
+
+<p>
+this prevents the creation of a single map that takes arbitrary
+keys
+</p>
+
+<p>
+(useful for generic memoizing function)
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-4-4" >
+
+<h3>reference equality</h3>
+<p>
+do <code>x</code> and <code>y</code> refer to the same location (i.e. object) in memory?
+</p>
+
+<p>
+(this doesn't even make sense for some <code>x</code> and <code>y</code>, such as
+primitive <code>int</code> and <code>float</code> values)
+</p>
+</section>
+</section>
+<section>
+<section id="sec-4-5" >
+
+<h3>value equality</h3>
+<p>
+do <code>x</code> and <code>y</code> have the same value?
+</p>
+
+<p class="fragment">
+(at this moment in time)?
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-4-6" >
+
+<h3>bitwise equality</h3>
+<p>
+reference equality for pointers
+</p>
+
+<p>
+value equality for primitive types
+</p>
+
+<p>
+Java's <code>==</code>, Lisp's <code>EQ</code>, Ruby's <code>equal?</code>
+</p>
+
+<p class="fragment">
+efficiently maps to native machine instructions
+</p>
+
+<p class="fragment">
+semantically problematic
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-4-7" >
+
+<h3>user-defined equality</h3>
+<p>
+give every object an <code>equal</code> method that the user can override
+</p>
+</section>
+</section>
+<section>
+<section id="sec-4-8" >
+
+<h3>operational equivalence</h3>
+<p>
+can I distinguish <code>x</code> and <code>y</code> by calling methods on them?
+</p>
+
+<p>
+<i>extensional equivalence</i>
+</p>
+
+<p>
+(oppose <i>intensional equivalence</i>)
+</p>
+
+<p>
+black box vs white box
+</p>
+</section>
+</section>
+<section>
+<section id="sec-4-9" >
+
+<h3>identity of indiscernables</h3>
+<p>
+If there's no way to tell the difference between \(x\) and \(y\), then
+\(x = y\)
+</p>
+<p class="fragment">
+if \(x\) is a pink unicorn and \(y\) is a green unicorn, they are not
+the same, because \(x\) is pink and \(y\) is not pink
+</p>
+<p class="fragment">
+what about the <i>invisible pink unicorn</i>?
+</p>
+
+<aside class="notes">
+<p>
+(we know that she is invisible, because we can't see her; we have faith that she is pink)
+</p>
+
+<p>
+the invisible pink unicorn is indiscernible from the invisible green unicorn
+</p>
+
+<p>
+therefore, they are the same thing
+</p>
+</aside>
+</section>
+
+</section>
+<section>
+<section id="sec-4-10" >
+
+<h3>pedagogical example</h3>
+<p>
+(see <code>eq-cons</code> on p3 of the paper)
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-ruby"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">same?</span>(x,y)
+  saved_head = x[0]
+  x[0] = <span style="color: #228b22;">BasicObject</span>.new
+  x[0] == y[0]
+<span style="color: #a020f0;">ensure</span>
+  x[0] = saved_head
+<span style="color: #a020f0;">end</span>
+
+x = [<span style="color: #8b2252;">"a"</span>]; y = [<span style="color: #8b2252;">"a"</span>]
+
+puts <span style="color: #8b2252;">"x=x:</span><span style="color: #a0522d;"> #{same?(x,x)}</span><span style="color: #8b2252;">"</span>
+puts <span style="color: #8b2252;">"x=y:</span><span style="color: #a0522d;"> #{same?(x,y)}</span><span style="color: #8b2252;">"</span>
+</pre>
+</div>
+
+<pre class="example">
+x=x: true
+x=y: false
+</pre>
+</section>
+
+</section>
+<section id="sec-5" >
+
+<h2>what do we want equality to achieve in our model?</h2>
+<ul class="org-ul">
+<li>equivalence relation (ie reflexive, symmetric, transitive)
+</li>
+<li>models object identity
+<ul class="org-ul">
+<li>an object's identity doesn't change when its state changes
+</li>
+</ul>
+</li>
+<li>doesn't distinguish between things not in our model
+</li>
+</ul>
+</section>
+<section id="sec-6" >
+
+<h2>aside: equivalence relation</h2>
+<p>
+reflexive:
+</p>
+
+<p>
+$$ a \equiv a $$
+</p>
+
+<p>
+symmetric:
+</p>
+
+<p>
+$$ a \equiv b \implies b \equiv a $$
+</p>
+
+<p>
+transitive:
+</p>
+
+<p>
+$$ a \equiv b \land b \equiv c $$
+</p>
+
+<p>
+$$ \implies a \equiv c $$
+</p>
+
+<p>
+Partitions the universe into <i>equivalence classes</i>
+</p>
+</section>
+<section>
+<section id="sec-6-1" >
+
+<h3>symmetry causes particular problems for inheritance</h3>
+<p>
+If \(B\) is a subclass of \(A\), and \(A \equiv B\), does \(B \equiv A\)?
+</p>
+</section>
+</section>
+<section id="sec-7" >
+
+<h2>what is the solution?</h2>
+</section>
+<section id="sec-8" >
+
+<h2>why is this the right solution?</h2>
+</section>
+<section id="sec-9" >
+
+<h2>what are the implications?</h2>
+</section>
+<section id="sec-10" >
+
+<h2>any other worries?</h2>
+</section>
+<section>
+<section id="sec-10-1" >
+
+<h3>laziness</h3>
+</section>
+</section>
+<section>
+<section id="sec-10-2" >
+
+<h3>performance cost of traversing large data structures</h3>
+</section>
+</section>
+</div>
+</div>
+<script src="./lib/js/head.min.js"></script>
+<script src="./js/reveal.min.js"></script>
+<script>
+
+        		// Full list of configuration options available here:
+        		// https://github.com/hakimel/reveal.js#configuration
+        		Reveal.initialize({
+        			controls: true,
+        			progress: true,
+        			history: true,
+        			center: true,
+                                slideNumber: true,
+        			rollingLinks: false,
+        			keyboard: true,
+        			overview: true,
+        			 // slide width
+        			 // slide height
+        			 // slide margin
+        			 // slide minimum scaling factor
+        			 // slide maximum scaling factor
+
+
+        			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        			transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+        			transitionSpeed: 'default',
+
+        			// Optional libraries used to extend on reveal.js
+        			dependencies: [
+        				{ src: './lib/js/classList.js', condition: function() { return !document.body.classList; } }
+        				,{ src: './plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+        				,{ src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+        				,{ src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        				,{ src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+        				,{ src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+         				
+        			]
+        		});
+</script>
+</body>
+</html>
