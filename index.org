@@ -11,19 +11,12 @@
 
 * introduction
 
-** how did I find this paper?
+#+ATTR_REVEAL: :frag t
+  The Joy of Clojure, Michael Fogus and Chris Houser
 
-** why do I love this paper?
-
-It's well written and clear
-
-It has one core idea that it explores in hundreds of examples
-
-** why do I love this paper?
-
-It's about languages with OO and FP aspects
-
-it was an interesting time -- before most languages we use today were invented
+#+ATTR_REVEAL: :frag t
+  /And if two objects aren't equal forever, then they're technically
+  never equal (Baker 1993)./
 
 * problem: many types of equality
 
@@ -86,33 +79,13 @@ Oh noes!
 #+ATTR_REVEAL: :frag t
    can we answer this without resorting to "it depends"?
 
-** reference equality
+** in java.util.List terms...
 
-** reference equality?
-
-   (see ~eq-cons~ on p3 of the paper)
-
-#+BEGIN_SRC ruby :exports both :results output
-  def same?(x,y)
-    saved_head = x[0]
-    x[0] = BasicObject.new
-    x[0] == y[0]
-  ensure
-    x[0] = saved_head
-  end
-
-  x = ["a"]; y = ["a"]
-
-  puts "x=x: #{same?(x,x)}"
-  puts "x=y: #{same?(x,y)}"
-#+END_SRC
-
-#+RESULTS:
-: x=x: true
-: x=y: false
+   - ~==~ is sometimes too fine
+   - ~.equals()~ is sometimes too coarse
 
 
-* oo semantics and object identity
+* object identity
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC ruby
@@ -145,29 +118,77 @@ Oh noes!
 
 ** equivalence relation
 
-   - talk about definition, and equivalence classes, and the problem
-     of making fine/coarse distinctions
+reflexive:
 
-** x=y => f(x)=f(y) for arbitrary f
+$$ a \equiv a $$
 
-** useful & important to be able to compare compound values
+symmetric:
 
-   eg http requests -- "is this in my cache"?
+$$ a \equiv b \implies b \equiv a $$
 
-** useful & important to distinguish different objects with same current value
+transitive:
 
-** useful & important to have a single equality predicate to perform these jobs
+$$ a \equiv b \land b \equiv c \implies a \equiv c $$
 
-   - putting arbitrary items into maps (memoizing, caching)
+Partitions the universe into /equivalence classes/
 
-** in java.util.List terms...
+#+REVEAL: split
 
-   - ~==~ is sometimes too fine
-   - ~.equals()~ is sometimes too coarse
+$x \equiv y \implies f(x) \equiv f(y)$
+
+for arbitrary $f$
+
+** not too fine, not too coarse
 
 * solution: egal
 
-** works everywhere
+  Key idea is that of object identity:
+
+  Objects which /behave/ the same should /be/ the same.
+
+#+ATTR_REVEAL: :frag t
+  Related to "identity of indiscernibles"
+
+** numbers
+
+   500 = 500
+
+   not a lot more to it.
+
+** immutable lists
+
+   [1,2,3] = [1,2,3]
+
+#+ATTR_REVEAL: :frag t
+
+   more generally, iterate over elements and recursively call egal
+
+** mutable lists
+
+   [1,2,3] = [1,2,3]?
+
+** mutable lists
+
+compare ~eq-cons~ on p3 of the paper
+
+#+BEGIN_SRC ruby :exports both :results output
+  def same?(x,y)
+    saved_head = x[0]
+    x[0] = "My super-sekrit value"
+    x[0] == y[0]
+  ensure
+    x[0] = saved_head
+  end
+
+  x = ["a"]; y = ["a"]
+
+  puts "x=x: #{same?(x,x)}"
+  puts "x=y: #{same?(x,y)}"
+#+END_SRC
+
+#+RESULTS:
+: x=x: true
+: x=y: false
 
 ** examples
 
@@ -274,21 +295,7 @@ therefore, they are the same thing
 ** pedagogical example
 
 * aside: equivalence relation
-reflexive:
 
-$$ a \equiv a $$
-
-symmetric:
-
-$$ a \equiv b \implies b \equiv a $$
-
-transitive:
-
-$$ a \equiv b \land b \equiv c $$
-
-$$ \implies a \equiv c $$
-
-Partitions the universe into /equivalence classes/
 ** symmetry causes particular problems for inheritance
 
 If $B$ is a subclass of $A$, and $A \equiv B$, does $B \equiv A$?
