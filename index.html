@@ -31,181 +31,177 @@
 <section>
 <h2>Table of Contents</h2><ul>
 <li>
-<a href="#sec-1">overall structure</a>
+<a href="#sec-1">introduction</a>
 <ul>
 <li>
-<a href="#sec-1-1">introduction</a>
-<ul>
-<li>
-<a href="#sec-1-1-1">how did I find this paper?</a>
+<a href="#sec-1-1">how did I find this paper?</a>
 </li>
 <li>
-<a href="#sec-1-1-2">why do I love this paper?</a>
+<a href="#sec-1-2">why do I love this paper?</a>
 </li>
 <li>
-<a href="#sec-1-1-3">why do I love this paper?</a>
+<a href="#sec-1-3">why do I love this paper?</a>
 </li>
 </ul>
 <li>
-<a href="#sec-1-2">problem: many types of equality</a>
-</li>
-<li>
-<a href="#sec-1-3">oo semantics and object identity</a>
+<a href="#sec-2">problem: many types of equality</a>
 <ul>
 <li>
-<a href="#sec-1-3-1">which equality predicate to use?</a>
+<a href="#sec-2-1">oops</a>
 </li>
 <li>
-<a href="#sec-1-3-2">what do we really want from equality?</a>
+<a href="#sec-2-2">oops</a>
+</li>
+<li>
+<a href="#sec-2-3">lists</a>
+</li>
+<li>
+<a href="#sec-2-4">reference equality</a>
+</li>
+<li>
+<a href="#sec-2-5">reference equality?</a>
 </li>
 </ul>
 <li>
-<a href="#sec-1-4">solution: egal</a>
-<ul>
-<li>
-<a href="#sec-1-4-1">works everywhere</a>
+<a href="#sec-3">oo semantics and object identity</a>
 </li>
 <li>
-<a href="#sec-1-4-2">examples</a>
+<a href="#sec-4">what do we really want from equality?</a>
+<ul>
+<li>
+<a href="#sec-4-1">ONE equality operator!</a>
+</li>
+<li>
+<a href="#sec-4-2">equivalence relation</a>
+</li>
+<li>
+<a href="#sec-4-3">x=y =&gt; f(x)=f(y) for arbitrary f</a>
+</li>
+<li>
+<a href="#sec-4-4">useful &amp; important to be able to compare compound values</a>
+</li>
+<li>
+<a href="#sec-4-5">useful &amp; important to distinguish different objects with same current value</a>
+</li>
+<li>
+<a href="#sec-4-6">useful &amp; important to have a single equality predicate to perform these jobs</a>
+</li>
+<li>
+<a href="#sec-4-7">in java.util.List terms&#x2026;</a>
 </li>
 </ul>
 <li>
-<a href="#sec-1-5">implications</a>
+<a href="#sec-5">solution: egal</a>
 <ul>
 <li>
-<a href="#sec-1-5-1">immutability matters</a>
+<a href="#sec-5-1">works everywhere</a>
 </li>
 <li>
-<a href="#sec-1-5-2">mutable lists &amp; sets are rubbish</a>
+<a href="#sec-5-2">examples</a>
+<ul>
+<li>
+<a href="#sec-5-2-1">mutable objects</a>
+</li>
+<li>
+<a href="#sec-5-2-2">immutable objects</a>
+</li>
+<li>
+<a href="#sec-5-2-3">immutable objects with references to mutable components</a>
 </li>
 </ul>
 <li>
-<a href="#sec-1-6">questions for the</a>
+<a href="#sec-6">implications</a>
 <ul>
 <li>
-<a href="#sec-1-6-1">reference equality isn't perfect for mutable objects</a>
-</li>
+<a href="#sec-6-1">immutability matters</a>
+<ul>
 <li>
-<a href="#sec-1-6-2">laziness</a>
-</li>
-<li>
-<a href="#sec-1-6-3">abstract data types &amp; user-defined equality</a>
-</li>
-<li>
-<a href="#sec-1-6-4">closures and data defined using them</a>
+<a href="#sec-6-1-1">immutable views on mutable objects don't cut it</a>
 </li>
 </ul>
 <li>
-<a href="#sec-2">parking lot</a>
+<a href="#sec-6-2">mutable lists &amp; sets are rubbish</a>
 <ul>
 <li>
-<a href="#sec-2-1">some objects can be mutable but wrap the same mutable state</a>
-</li>
-<li>
-<a href="#sec-2-2">wtfs</a>
-</li>
-<li>
-<a href="#sec-2-3">sugababes and identity through time</a>
-</li>
-<li>
-<a href="#sec-2-4">object orientation</a>
-</li>
-<li>
-<a href="#sec-2-5">functional programming</a>
+<a href="#sec-6-2-1">lose much of the utility of having a compound if you can't easily compare it</a>
 </li>
 </ul>
 <li>
-<a href="#sec-3">context</a>
+<a href="#sec-7">questions for discussion</a>
 <ul>
 <li>
-<a href="#sec-3-1">after</a>
+<a href="#sec-7-1">reference equality isn't perfect for mutable objects</a>
 </li>
 <li>
-<a href="#sec-3-2">but before</a>
+<a href="#sec-7-2">laziness</a>
+</li>
+<li>
+<a href="#sec-7-3">abstract data types &amp; user-defined equality</a>
+<ul>
+<li>
+<a href="#sec-7-3-1">classic problem with cached hashcode field as a perf optimization</a>
 </li>
 </ul>
 <li>
-<a href="#sec-4">what is the problem?</a>
+<a href="#sec-7-4">closures and data defined using them</a>
 <ul>
 <li>
-<a href="#sec-4-1">what is equality anyway?</a>
-</li>
-<li>
-<a href="#sec-4-2">too fine a distinction? too coarse?</a>
-</li>
-<li>
-<a href="#sec-4-3">map lookup</a>
-</li>
-<li>
-<a href="#sec-4-4">reference equality</a>
-</li>
-<li>
-<a href="#sec-4-5">value equality</a>
-</li>
-<li>
-<a href="#sec-4-6">bitwise equality</a>
-</li>
-<li>
-<a href="#sec-4-7">user-defined equality</a>
-</li>
-<li>
-<a href="#sec-4-8">operational equivalence</a>
-</li>
-<li>
-<a href="#sec-4-9">identity of indiscernables</a>
-</li>
-<li>
-<a href="#sec-4-10">pedagogical example</a>
+<a href="#sec-7-4-1">applies equally to anonymous inner classes</a>
 </li>
 </ul>
 <li>
-<a href="#sec-5">what do we want equality to achieve in our model?</a>
-</li>
-<li>
-<a href="#sec-6">aside: equivalence relation</a>
+<a href="#sec-8">what is the problem?</a>
 <ul>
 <li>
-<a href="#sec-6-1">symmetry causes particular problems for inheritance</a>
+<a href="#sec-8-1">too fine a distinction? too coarse?</a>
+</li>
+<li>
+<a href="#sec-8-2">map lookup</a>
+</li>
+<li>
+<a href="#sec-8-3">reference equality</a>
+</li>
+<li>
+<a href="#sec-8-4">value equality</a>
+</li>
+<li>
+<a href="#sec-8-5">bitwise equality</a>
+</li>
+<li>
+<a href="#sec-8-6">user-defined equality</a>
+</li>
+<li>
+<a href="#sec-8-7">operational equivalence</a>
+</li>
+<li>
+<a href="#sec-8-8">identity of indiscernables</a>
+</li>
+<li>
+<a href="#sec-8-9">pedagogical example</a>
 </li>
 </ul>
 <li>
-<a href="#sec-7">what is the solution?</a>
-</li>
-<li>
-<a href="#sec-8">why is this the right solution?</a>
-</li>
-<li>
-<a href="#sec-9">what are the implications?</a>
-</li>
-<li>
-<a href="#sec-10">any other worries?</a>
+<a href="#sec-9">aside: equivalence relation</a>
 <ul>
 <li>
-<a href="#sec-10-1">laziness</a>
-</li>
-<li>
-<a href="#sec-10-2">performance cost of traversing large data structures</a>
+<a href="#sec-9-1">symmetry causes particular problems for inheritance</a>
 </li>
 </ul>
 </section>
 
+<section>
 <section id="sec-1" >
 
-<h2>overall structure</h2>
+<h2>introduction</h2>
 </section>
-<section>
 <section id="sec-1-1" >
 
-<h3>introduction</h3>
-</section>
-<section id="sec-1-1-1" >
-
-<h4>how did I find this paper?</h4>
+<h3>how did I find this paper?</h3>
 
 </section>
-<section id="sec-1-1-2" >
+<section id="sec-1-2" >
 
-<h4>why do I love this paper?</h4>
+<h3>why do I love this paper?</h3>
 <p>
 It's well written and clear
 </p>
@@ -215,9 +211,9 @@ It has one core idea that it explores in hundreds of examples
 </p>
 
 </section>
-<section id="sec-1-1-3" >
+<section id="sec-1-3" >
 
-<h4>why do I love this paper?</h4>
+<h3>why do I love this paper?</h3>
 <p>
 It's about languages with OO and FP aspects
 </p>
@@ -229,307 +225,9 @@ it was an interesting time &#x2013; before most languages we use today were inve
 
 </section>
 <section>
-<section id="sec-1-2" >
-
-<h3>problem: many types of equality</h3>
-<p>
-big table here
-</p>
-</section>
-
-</section>
-<section>
-<section id="sec-1-3" >
-
-<h3>oo semantics and object identity</h3>
-<p>
-sugababes to illustrate identity?
-</p>
-
-</section>
-<section id="sec-1-3-1" >
-
-<h4>which equality predicate to use?</h4>
-<ul class="org-ul"><li class="fragment none">depends on the thing you're comparing<br/></li>
-
-<li class="fragment none">depends on the situation in which you compare things<br/></li></ul>
-
-</section>
-<section id="sec-1-3-2" >
-
-<h4>what do we really want from equality?</h4>
-<ul class="org-ul"><li class="fragment none">useful &amp; important to be able to compare compound values<br/><p>
-eg http requests &#x2013; "is this in my cache"?
-</p>
-</li>
-
-<li class="fragment none">useful &amp; important to distinguish different objects with same current value<br/></li>
-
-<li class="fragment none">useful &amp; important to have a single equality predicate to perform these jobs<br/></li></ul>
-</section>
-
-</section>
-<section>
-<section id="sec-1-4" >
-
-<h3>solution: egal</h3>
-</section>
-<section id="sec-1-4-1" >
-
-<h4>works everywhere</h4>
-
-</section>
-<section id="sec-1-4-2" >
-
-<h4>examples</h4>
-<ul class="org-ul"><li class="fragment none">mutable objects<br/></li>
-
-<li class="fragment none">immutable objects<br/></li>
-
-<li class="fragment none">immutable objects with references to mutable components<br/></li></ul>
-</section>
-</section>
-<section>
-<section id="sec-1-5" >
-
-<h3>implications</h3>
-</section>
-<section id="sec-1-5-1" >
-
-<h4>immutability matters</h4>
-<ul class="org-ul"><li class="fragment none">immutable views on mutable objects don't cut it<br/></li></ul>
-
-</section>
-<section id="sec-1-5-2" >
-
-<h4>mutable lists &amp; sets are rubbish</h4>
-<ul class="org-ul"><li class="fragment none">lose much of the utility of having a compound if you can't easily compare it<br/></li></ul>
-</section>
-</section>
-<section>
-<section id="sec-1-6" >
-
-<h3>questions for the</h3>
-</section>
-<section id="sec-1-6-1" >
-
-<h4>reference equality isn't perfect for mutable objects</h4>
-<aside class="notes">
-<p>
-conflict: can't have reference equality and the ability to simulate other objects
-</p>
-</aside>
-
-</section>
-<section id="sec-1-6-2" >
-
-<h4>laziness</h4>
-</section>
-<section id="sec-1-6-3" >
-
-<h4>abstract data types &amp; user-defined equality</h4>
-<ul class="org-ul"><li class="fragment none">classic problem with cached hashcode field as a perf optimization<br/></li></ul>
-</section>
-<section id="sec-1-6-4" >
-
-<h4>closures and data defined using them</h4>
-<ul class="org-ul"><li class="fragment none">applies equally to anonymous inner classes<br/></li></ul>
-</section>
-</section>
 <section id="sec-2" >
 
-<h2>parking lot</h2>
-</section>
-<section>
-<section id="sec-2-1" >
-
-<h3>some objects can be mutable but wrap the same mutable state</h3>
-<p>
-this cannot be distinguished in practice
-</p>
-
-<p>
-shows distinction between extensional equality and reference
-  equality
-</p>
-
-<p>
-reference equality makes a finer distinction than extensional
-    equality
-</p>
-
-<p>
-two conflicting principles:
-</p>
-
-<p>
-need to be able to tell if we are dealing with the "same" object
-or not (we've already discounted this for immutable objects)
-</p>
-
-<p>
-need to be able to proxy/simulate other objects transparently
-</p>
-</section>
-
-</section>
-<section>
-<section id="sec-2-2" >
-
-<h3>wtfs</h3>
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Python</span>
-<span style="color: #a0522d;">x</span> = 1
-<span style="color: #a0522d;">y</span> = 1
-x <span style="color: #a020f0;">is</span> y
-</pre>
-</div>
-
-<pre class="example">
-True
-</pre>
-
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #a0522d;">x</span> = 50001
-<span style="color: #a0522d;">y</span> = 50001
-x <span style="color: #a020f0;">is</span> y
-</pre>
-</div>
-
-<pre class="example">
-False
-</pre>
-</section>
-
-</section>
-<section>
-<section id="sec-2-3" >
-
-<h3>sugababes and identity through time</h3>
-<div class="org-src-container">
-
-<pre  class="src src-ruby">require <span style="color: #8b2252;">'set'</span>
-sugababes = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>]
-
-sugababes.delete(<span style="color: #008b8b;">:siobhan</span>); sugababes.add(<span style="color: #008b8b;">:heidi</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2001</span>
-
-sugababes.delete(<span style="color: #008b8b;">:mutya</span>); sugababes.add(<span style="color: #008b8b;">:amelle</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2005</span>
-
-sugababes.delete(<span style="color: #008b8b;">:keisha</span>); sugababes.add(<span style="color: #008b8b;">:jade</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2009</span>
-
-new_band = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>] <span style="color: #b22222;"># </span><span style="color: #b22222;">2011</span>
-</pre>
-</div>
-</section>
-
-</section>
-<section>
-<section id="sec-2-4" >
-
-<h3>object orientation</h3>
-<p>
-What is OO, for the purposes of this talk?
-</p>
-
-<p>
-There exist things called <i>objects</i>..
-</p>
-
-<p>
-which respond to <i>methods</i>..
-</p>
-
-<p>
-and have <i>internal state</i>..
-</p>
-</section>
-
-</section>
-<section>
-<section id="sec-2-5" >
-
-<h3>functional programming</h3>
-<p>
-functions as first-class values
-</p>
-
-<p>
-closures
-</p>
-</section>
-
-
-
-</section>
-<section id="sec-3" >
-
-<h2>context</h2>
-<ul class="org-ul">
-<li>This was the early 1990s
-</li>
-<li>OO and FP were both interesting at the time
-</li>
-</ul>
-
-</section>
-<section>
-<section id="sec-3-1" >
-
-<h3>after</h3>
-<ul class="org-ul">
-<li>C
-</li>
-<li>C++
-</li>
-<li>Common Lisp (and CLOS)
-</li>
-<li>Scheme
-</li>
-<li>Smalltalk
-</li>
-<li>ML
-</li>
-</ul>
-</section>
-
-</section>
-<section>
-<section id="sec-3-2" >
-
-<h3>but before</h3>
-<ul class="org-ul">
-<li>C# and .NET
-</li>
-<li>Perl (before Perl 4, at least)
-</li>
-<li>Python
-</li>
-<li>Ruby
-</li>
-<li>Java and the other JVM languages
-</li>
-<li>JavaScript
-</li>
-<li>Haskell
-</li>
-</ul>
-</section>
-
-</section>
-<section id="sec-4" >
-
-<h2>what is the problem?</h2>
-<p>
-Why does equality matter?
-</p>
-
-</section>
-<section>
-<section id="sec-4-1" >
-
-<h3>what is equality anyway?</h3>
+<h2>problem: many types of equality</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" class="reveal">
 
 
@@ -577,186 +275,85 @@ Why does equality matter?
 </table>
 
 </section>
-<section>
+<section id="sec-2-1" >
 
-<p>
-if <code>x</code> is a list <code>[1,2,3]</code>
-</p>
+<h3>oops</h3>
+<div class="org-src-container">
 
-<p>
-and <code>y</code> is a list <code>[1,2,3]</code>
-</p>
+<pre  class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Python</span>
+<span style="color: #a0522d;">x</span> = 1
+<span style="color: #a0522d;">y</span> = 1
+x <span style="color: #a020f0;">is</span> y
+</pre>
+</div>
 
-<p>
-<i>are they the same?</i>
-</p>
-</section>
-</section>
-<section>
-<section id="sec-4-2" >
+<pre class="example">
+True
+</pre>
 
-<h3>too fine a distinction? too coarse?</h3>
-<p>
-numbers &#x2013; EQ
-</p>
+<div class="org-src-container">
 
-<p>
-strings
-</p>
+<pre  class="src src-python"><span style="color: #a0522d;">x</span> = 50001
+<span style="color: #a0522d;">y</span> = 50001
+x <span style="color: #a020f0;">is</span> y
+</pre>
+</div>
 
-<p>
-"<code>EQ</code> is often too fine, and <code>EQUAL</code> is often too coarse"
-</p>
-
-<p>
-equality of lists, sets, maps
-</p>
-</section>
+<pre class="example">
+False
+</pre>
 
 </section>
-<section>
-<section id="sec-4-3" >
+<section id="sec-2-2" >
 
-<h3>map lookup</h3>
-<p>
-map lookup depends on your equality relation
-</p>
+<h3>oops</h3>
+<div class="org-src-container">
 
-<p>
-in Lisp, you need <code>EQL</code> for numbers but <code>EQUAL</code> for strings
-</p>
+<pre  class="src src-java"><span style="color: #a020f0;">public</span> <span style="color: #a020f0;">class</span> <span style="color: #228b22;">Foo</span> {
+    <span style="color: #a020f0;">public</span> <span style="color: #a020f0;">static</span> <span style="color: #228b22;">void</span> <span style="color: #0000ff;">main</span>(<span style="color: #228b22;">String</span>[] <span style="color: #a0522d;">args</span>) {
+        <span style="color: #a020f0;">if</span> (Integer.valueOf(200) == Integer.valueOf(200)) {
+            System.out.println(<span style="color: #8b2252;">"Hooray!"</span>);
+        } <span style="color: #a020f0;">else</span> {
+            System.out.println(<span style="color: #8b2252;">"Oh noes!"</span>);
+        }
+    }
+}
+</pre>
+</div>
 
-<p>
-this prevents the creation of a single map that takes arbitrary
-keys
-</p>
+<pre class="example">
+Oh noes!
+</pre>
 
-<p>
-(useful for generic memoizing function)
-</p>
 </section>
+<section id="sec-2-3" >
+
+<h3>lists</h3>
+<p>
+if x = <code>[1,2,3]</code>, and y = <code>[1,2,3]</code>:
+</p>
+
+<p>
+are they equal?
+</p>
+
+<p>
+are they the same?
+</p>
+
+<p class="fragment">
+can we answer this without resorting to "it depends"?
+</p>
 
 </section>
-<section>
-<section id="sec-4-4" >
+<section id="sec-2-4" >
 
 <h3>reference equality</h3>
-<p>
-do <code>x</code> and <code>y</code> refer to the same location (i.e. object) in memory?
-</p>
-
-<p>
-(this doesn't even make sense for some <code>x</code> and <code>y</code>, such as
-primitive <code>int</code> and <code>float</code> values)
-</p>
-</section>
-</section>
-<section>
-<section id="sec-4-5" >
-
-<h3>value equality</h3>
-<p>
-do <code>x</code> and <code>y</code> have the same value?
-</p>
-
-<p class="fragment">
-(at this moment in time)?
-</p>
-</section>
 
 </section>
-<section>
-<section id="sec-4-6" >
+<section id="sec-2-5" >
 
-<h3>bitwise equality</h3>
-<p>
-reference equality for pointers
-</p>
-
-<p>
-value equality for primitive types
-</p>
-
-<p>
-Java's <code>==</code>, Lisp's <code>EQ</code>, Ruby's <code>equal?</code>
-</p>
-
-<p class="fragment">
-efficiently maps to native machine instructions
-</p>
-
-<p class="fragment">
-semantically problematic
-</p>
-</section>
-
-</section>
-<section>
-<section id="sec-4-7" >
-
-<h3>user-defined equality</h3>
-<p>
-give every object an <code>equal</code> method that the user can override
-</p>
-</section>
-</section>
-<section>
-<section id="sec-4-8" >
-
-<h3>operational equivalence</h3>
-<p>
-can I distinguish <code>x</code> and <code>y</code> by calling methods on them?
-</p>
-
-<p>
-<i>extensional equivalence</i>
-</p>
-
-<p>
-(oppose <i>intensional equivalence</i>)
-</p>
-
-<p>
-black box vs white box
-</p>
-</section>
-</section>
-<section>
-<section id="sec-4-9" >
-
-<h3>identity of indiscernables</h3>
-<p>
-If there's no way to tell the difference between \(x\) and \(y\), then
-\(x = y\)
-</p>
-<p class="fragment">
-if \(x\) is a pink unicorn and \(y\) is a green unicorn, they are not
-the same, because \(x\) is pink and \(y\) is not pink
-</p>
-<p class="fragment">
-what about the <i>invisible pink unicorn</i>?
-</p>
-
-<aside class="notes">
-<p>
-(we know that she is invisible, because we can't see her; we have faith that she is pink)
-</p>
-
-<p>
-the invisible pink unicorn is indiscernible from the invisible green unicorn
-</p>
-
-<p>
-therefore, they are the same thing
-</p>
-</aside>
-</section>
-
-</section>
-<section>
-<section id="sec-4-10" >
-
-<h3>pedagogical example</h3>
+<h3>reference equality?</h3>
 <p>
 (see <code>eq-cons</code> on p3 of the paper)
 </p>
@@ -784,24 +381,353 @@ x=y: false
 </pre>
 </section>
 
+
 </section>
+<section>
+<section id="sec-3" >
+
+<h2>oo semantics and object identity</h2>
+<div class="org-src-container">
+
+<pre  class="fragment">sugababes = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>]
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment">sugababes.delete(<span style="color: #008b8b;">:siobhan</span>); sugababes.add(<span style="color: #008b8b;">:heidi</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2001</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment">sugababes.delete(<span style="color: #008b8b;">:mutya</span>); sugababes.add(<span style="color: #008b8b;">:amelle</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2005</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment">sugababes.delete(<span style="color: #008b8b;">:keisha</span>); sugababes.add(<span style="color: #008b8b;">:jade</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">2009</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment">new_band = <span style="color: #228b22;">Set</span>.new [<span style="color: #008b8b;">:mutya</span>, <span style="color: #008b8b;">:keisha</span>, <span style="color: #008b8b;">:siobhan</span>] <span style="color: #b22222;"># </span><span style="color: #b22222;">2011</span>
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-4" >
+
+<h2>what do we really want from equality?</h2>
+</section>
+<section id="sec-4-1" >
+
+<h3>ONE equality operator!</h3>
+
+</section>
+<section id="sec-4-2" >
+
+<h3>equivalence relation</h3>
+<ul class="org-ul">
+<li>talk about definition, and equivalence classes, and the problem
+of making fine/coarse distinctions
+</li>
+</ul>
+
+</section>
+<section id="sec-4-3" >
+
+<h3>x=y =&gt; f(x)=f(y) for arbitrary f</h3>
+
+</section>
+<section id="sec-4-4" >
+
+<h3>useful &amp; important to be able to compare compound values</h3>
+<p>
+eg http requests &#x2013; "is this in my cache"?
+</p>
+
+</section>
+<section id="sec-4-5" >
+
+<h3>useful &amp; important to distinguish different objects with same current value</h3>
+
+</section>
+<section id="sec-4-6" >
+
+<h3>useful &amp; important to have a single equality predicate to perform these jobs</h3>
+<ul class="org-ul">
+<li>putting arbitrary items into maps (memoizing, caching)
+</li>
+</ul>
+
+</section>
+<section id="sec-4-7" >
+
+<h3>in java.util.List terms&#x2026;</h3>
+<ul class="org-ul">
+<li><code>==</code> is sometimes too fine
+</li>
+<li><code>.equals()</code> is sometimes too coarse
+</li>
+</ul>
+</section>
+
+</section>
+<section>
 <section id="sec-5" >
 
-<h2>what do we want equality to achieve in our model?</h2>
-<ul class="org-ul">
-<li>equivalence relation (ie reflexive, symmetric, transitive)
-</li>
-<li>models object identity
-<ul class="org-ul">
-<li>an object's identity doesn't change when its state changes
-</li>
-</ul>
-</li>
-<li>doesn't distinguish between things not in our model
-</li>
-</ul>
+<h2>solution: egal</h2>
 </section>
+<section id="sec-5-1" >
+
+<h3>works everywhere</h3>
+
+</section>
+<section id="sec-5-2" >
+
+<h3>examples</h3>
+</section>
+<section id="sec-5-2-1" >
+
+<h4>mutable objects</h4>
+
+</section>
+<section id="sec-5-2-2" >
+
+<h4>immutable objects</h4>
+
+</section>
+<section id="sec-5-2-3" >
+
+<h4>immutable objects with references to mutable components</h4>
+</section>
+</section>
+<section>
 <section id="sec-6" >
+
+<h2>implications</h2>
+</section>
+<section id="sec-6-1" >
+
+<h3>immutability matters</h3>
+</section>
+<section id="sec-6-1-1" >
+
+<h4>immutable views on mutable objects don't cut it</h4>
+
+</section>
+<section id="sec-6-2" >
+
+<h3>mutable lists &amp; sets are rubbish</h3>
+</section>
+<section id="sec-6-2-1" >
+
+<h4>lose much of the utility of having a compound if you can't easily compare it</h4>
+</section>
+</section>
+<section>
+<section id="sec-7" >
+
+<h2>questions for discussion</h2>
+</section>
+<section id="sec-7-1" >
+
+<h3>reference equality isn't perfect for mutable objects</h3>
+<aside class="notes">
+<p>
+conflict: can't have reference equality and the ability to simulate other objects
+</p>
+</aside>
+
+</section>
+<section id="sec-7-2" >
+
+<h3>laziness</h3>
+</section>
+<section id="sec-7-3" >
+
+<h3>abstract data types &amp; user-defined equality</h3>
+</section>
+<section id="sec-7-3-1" >
+
+<h4>classic problem with cached hashcode field as a perf optimization</h4>
+</section>
+<section id="sec-7-4" >
+
+<h3>closures and data defined using them</h3>
+</section>
+<section id="sec-7-4-1" >
+
+<h4>applies equally to anonymous inner classes</h4>
+</section>
+</section>
+<section>
+<section id="sec-8" >
+
+<h2>what is the problem?</h2>
+<p>
+Why does equality matter?
+</p>
+
+</section>
+<section id="sec-8-1" >
+
+<h3>too fine a distinction? too coarse?</h3>
+<p>
+numbers &#x2013; EQ
+</p>
+
+<p>
+strings
+</p>
+
+<p>
+"<code>EQ</code> is often too fine, and <code>EQUAL</code> is often too coarse"
+</p>
+
+<p>
+equality of lists, sets, maps
+</p>
+
+</section>
+<section id="sec-8-2" >
+
+<h3>map lookup</h3>
+<p>
+map lookup depends on your equality relation
+</p>
+
+<p>
+in Lisp, you need <code>EQL</code> for numbers but <code>EQUAL</code> for strings
+</p>
+
+<p>
+this prevents the creation of a single map that takes arbitrary
+keys
+</p>
+
+<p>
+(useful for generic memoizing function)
+</p>
+
+</section>
+<section id="sec-8-3" >
+
+<h3>reference equality</h3>
+<p>
+do <code>x</code> and <code>y</code> refer to the same location (i.e. object) in memory?
+</p>
+
+<p>
+(this doesn't even make sense for some <code>x</code> and <code>y</code>, such as
+primitive <code>int</code> and <code>float</code> values)
+</p>
+</section>
+<section id="sec-8-4" >
+
+<h3>value equality</h3>
+<p>
+do <code>x</code> and <code>y</code> have the same value?
+</p>
+
+<p class="fragment">
+(at this moment in time)?
+</p>
+
+</section>
+<section id="sec-8-5" >
+
+<h3>bitwise equality</h3>
+<p>
+reference equality for pointers
+</p>
+
+<p>
+value equality for primitive types
+</p>
+
+<p>
+Java's <code>==</code>, Lisp's <code>EQ</code>, Ruby's <code>equal?</code>
+</p>
+
+<p class="fragment">
+efficiently maps to native machine instructions
+</p>
+
+<p class="fragment">
+semantically problematic
+</p>
+
+</section>
+<section id="sec-8-6" >
+
+<h3>user-defined equality</h3>
+<p>
+give every object an <code>equal</code> method that the user can override
+</p>
+</section>
+<section id="sec-8-7" >
+
+<h3>operational equivalence</h3>
+<p>
+can I distinguish <code>x</code> and <code>y</code> by calling methods on them?
+</p>
+
+<p>
+<i>extensional equivalence</i>
+</p>
+
+<p>
+(oppose <i>intensional equivalence</i>)
+</p>
+
+<p>
+black box vs white box
+</p>
+</section>
+<section id="sec-8-8" >
+
+<h3>identity of indiscernables</h3>
+<p>
+If there's no way to tell the difference between \(x\) and \(y\), then
+\(x = y\)
+</p>
+<p class="fragment">
+if \(x\) is a pink unicorn and \(y\) is a green unicorn, they are not
+the same, because \(x\) is pink and \(y\) is not pink
+</p>
+<p class="fragment">
+what about the <i>invisible pink unicorn</i>?
+</p>
+
+<aside class="notes">
+<p>
+(we know that she is invisible, because we can't see her; we have faith that she is pink)
+</p>
+
+<p>
+the invisible pink unicorn is indiscernible from the invisible green unicorn
+</p>
+
+<p>
+therefore, they are the same thing
+</p>
+</aside>
+
+</section>
+<section id="sec-8-9" >
+
+<h3>pedagogical example</h3>
+</section>
+
+</section>
+<section>
+<section id="sec-9" >
 
 <h2>aside: equivalence relation</h2>
 <p>
@@ -836,41 +762,12 @@ $$ \implies a \equiv c $$
 Partitions the universe into <i>equivalence classes</i>
 </p>
 </section>
-<section>
-<section id="sec-6-1" >
+<section id="sec-9-1" >
 
 <h3>symmetry causes particular problems for inheritance</h3>
 <p>
 If \(B\) is a subclass of \(A\), and \(A \equiv B\), does \(B \equiv A\)?
 </p>
-</section>
-</section>
-<section id="sec-7" >
-
-<h2>what is the solution?</h2>
-</section>
-<section id="sec-8" >
-
-<h2>why is this the right solution?</h2>
-</section>
-<section id="sec-9" >
-
-<h2>what are the implications?</h2>
-</section>
-<section id="sec-10" >
-
-<h2>any other worries?</h2>
-</section>
-<section>
-<section id="sec-10-1" >
-
-<h3>laziness</h3>
-</section>
-</section>
-<section>
-<section id="sec-10-2" >
-
-<h3>performance cost of traversing large data structures</h3>
 </section>
 </section>
 </div>
@@ -893,8 +790,8 @@ If \(B\) is a subclass of \(A\), and \(A \equiv B\), does \(B \equiv A\)?
         			 // slide width
         			 // slide height
         			 // slide margin
-        			 // slide minimum scaling factor
-        			 // slide maximum scaling factor
+        			minScale: 1.20, // slide minimum scaling factor
+        			maxScale: 1.20, // slide maximum scaling factor
 
 
         			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme

@@ -2,103 +2,42 @@
 #+AUTHOR: Henry Baker
 #+EMAIL: Philip Potter - @philandstuff
 #+OPTIONS: reveal_mathjax:t reveal_history:t num:nil
-#+REVEAL_HLEVEL:2
+#+REVEAL_HLEVEL:1
+#+REVEAL_MIN_SCALE:1.2
+#+REVEAL_MAX_SCALE:1.2
 #+REVEAL_ROOT:.
 #+REVEAL_TRANS:linear
 #+REVEAL_THEME:simple
 
-* overall structure
+* introduction
 
-** introduction
+** how did I find this paper?
 
-*** how did I find this paper?
-
-*** why do I love this paper?
+** why do I love this paper?
 
 It's well written and clear
 
 It has one core idea that it explores in hundreds of examples
 
-*** why do I love this paper?
+** why do I love this paper?
 
 It's about languages with OO and FP aspects
 
 it was an interesting time -- before most languages we use today were invented
 
-** problem: many types of equality
+* problem: many types of equality
 
-big table here
+#+ATTR_HTML: :class reveal
+| C++       | pointer equality, overloaded ~==~ operator            |
+| Lisp      | ~EQ~, ~EQL~, ~EQUAL~, ~EQUALP~, ~STRING=~, ~CHAR=~... |
+| Smalltalk | ~=~, ~==~                                             |
+| Java      | ~==~, ~.equals()~                                     |
+| Perl      | ~==~, ~eq~                                            |
+| Python    | ~==~, ~is~                                            |
+| Ruby      | ~==~, ~eql?~, ~equal?~                                |
 
-** oo semantics and object identity
+** oops
 
-sugababes to illustrate identity?
-
-*** which equality predicate to use?
-
-**** depends on the thing you're comparing
-
-**** depends on the situation in which you compare things
-
-*** what do we really want from equality?
-
-**** useful & important to be able to compare compound values
-
-eg http requests -- "is this in my cache"?
-
-**** useful & important to distinguish different objects with same current value
-
-**** useful & important to have a single equality predicate to perform these jobs
-
-** solution: egal
-
-*** works everywhere
-
-*** examples
-
-**** mutable objects
-
-**** immutable objects
-
-**** immutable objects with references to mutable components
-** implications
-*** immutability matters
-
-**** immutable views on mutable objects don't cut it
-
-*** mutable lists & sets are rubbish
-
-**** lose much of the utility of having a compound if you can't easily compare it
-** questions for the
-*** reference equality isn't perfect for mutable objects
-
-#+BEGIN_NOTES
-conflict: can't have reference equality and the ability to simulate other objects
-#+END_NOTES
-
-*** laziness
-*** abstract data types & user-defined equality
-**** classic problem with cached hashcode field as a perf optimization
-*** closures and data defined using them
-**** applies equally to anonymous inner classes
-* parking lot
-
-** some objects can be mutable but wrap the same mutable state
-   this cannot be distinguished in practice
-   
-   shows distinction between extensional equality and reference
-     equality
-   
-   reference equality makes a finer distinction than extensional
-       equality
-
-   two conflicting principles:
-
-     need to be able to tell if we are dealing with the "same" object
-     or not (we've already discounted this for immutable objects)
-
-     need to be able to proxy/simulate other objects transparently
-
-** wtfs
 #+BEGIN_SRC python :exports both :session
   # Python
   x = 1
@@ -110,92 +49,156 @@ conflict: can't have reference equality and the ability to simulate other object
 : True
 
 #+BEGIN_SRC python :exports both :session
-  x = 50001
-  y = 50001
+  x = 500
+  y = 500
   x is y
 #+END_SRC
 
 #+RESULTS:
 : False
 
-** sugababes and identity through time
+** oops
 
+#+BEGIN_SRC java
+  public class Foo {
+      public static void main(String[] args) {
+          if (Integer.valueOf(200) == Integer.valueOf(200)) {
+              System.out.println("Hooray!");
+          } else {
+              System.out.println("Oh noes!");
+          }
+      }
+  }
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Oh noes!
+#+END_EXAMPLE
+
+** lists
+
+   if x = ~[1,2,3]~, and y = ~[1,2,3]~:
+
+   are they equal?
+
+   are they the same?
+
+#+ATTR_REVEAL: :frag t
+   can we answer this without resorting to "it depends"?
+
+** reference equality
+
+** reference equality?
+
+   (see ~eq-cons~ on p3 of the paper)
+
+#+BEGIN_SRC ruby :exports both :results output
+  def same?(x,y)
+    saved_head = x[0]
+    x[0] = BasicObject.new
+    x[0] == y[0]
+  ensure
+    x[0] = saved_head
+  end
+
+  x = ["a"]; y = ["a"]
+
+  puts "x=x: #{same?(x,x)}"
+  puts "x=y: #{same?(x,y)}"
+#+END_SRC
+
+#+RESULTS:
+: x=x: true
+: x=y: false
+
+
+* oo semantics and object identity
+
+#+ATTR_REVEAL: :frag t
 #+BEGIN_SRC ruby
-  require 'set'
   sugababes = Set.new [:mutya, :keisha, :siobhan]
+#+END_SRC
 
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC ruby
   sugababes.delete(:siobhan); sugababes.add(:heidi) # 2001
+#+END_SRC
 
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC ruby
   sugababes.delete(:mutya); sugababes.add(:amelle) # 2005
+#+END_SRC
 
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC ruby
   sugababes.delete(:keisha); sugababes.add(:jade) # 2009
+#+END_SRC
 
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC ruby
   new_band = Set.new [:mutya, :keisha, :siobhan] # 2011
 #+END_SRC
 
-** object orientation
+* what do we really want from equality?
 
-What is OO, for the purposes of this talk?
+** ONE equality operator!
 
-There exist things called /objects/..
+** equivalence relation
 
-which respond to /methods/..
+   - talk about definition, and equivalence classes, and the problem
+     of making fine/coarse distinctions
 
-and have /internal state/..
+** x=y => f(x)=f(y) for arbitrary f
 
-** functional programming
+** useful & important to be able to compare compound values
 
-   functions as first-class values
+   eg http requests -- "is this in my cache"?
 
-   closures
+** useful & important to distinguish different objects with same current value
 
-   
+** useful & important to have a single equality predicate to perform these jobs
 
-* context
+   - putting arbitrary items into maps (memoizing, caching)
 
-  - This was the early 1990s
-  - OO and FP were both interesting at the time
+** in java.util.List terms...
 
-** after
+   - ~==~ is sometimes too fine
+   - ~.equals()~ is sometimes too coarse
 
-   - C
-   - C++
-   - Common Lisp (and CLOS)
-   - Scheme
-   - Smalltalk
-   - ML
+* solution: egal
 
-** but before
+** works everywhere
 
-   - C# and .NET
-   - Perl (before Perl 4, at least)
-   - Python
-   - Ruby
-   - Java and the other JVM languages
-   - JavaScript
-   - Haskell
+** examples
 
+*** mutable objects
+
+*** immutable objects
+
+*** immutable objects with references to mutable components
+* implications
+** immutability matters
+
+*** immutable views on mutable objects don't cut it
+
+** mutable lists & sets are rubbish
+
+*** lose much of the utility of having a compound if you can't easily compare it
+* questions for discussion
+** reference equality isn't perfect for mutable objects
+
+#+BEGIN_NOTES
+conflict: can't have reference equality and the ability to simulate other objects
+#+END_NOTES
+
+** laziness
+** abstract data types & user-defined equality
+*** classic problem with cached hashcode field as a perf optimization
+** closures and data defined using them
+*** applies equally to anonymous inner classes
 * what is the problem?
   Why does equality matter?
 
-** what is equality anyway?
-
-#+ATTR_HTML: :class reveal
-| C++       | pointer equality, overloaded ~==~ operator            |
-| Lisp      | ~EQ~, ~EQL~, ~EQUAL~, ~EQUALP~, ~STRING=~, ~CHAR=~... |
-| Smalltalk | ~=~, ~==~                                             |
-| Java      | ~==~, ~.equals()~                                     |
-| Perl      | ~==~, ~eq~                                            |
-| Python    | ~==~, ~is~                                            |
-| Ruby      | ~==~, ~eql?~, ~equal?~                                |
-
-#+REVEAL: split
-
-   if ~x~ is a list ~[1,2,3]~
-
-   and ~y~ is a list ~[1,2,3]~
-
-   /are they the same?/
 ** too fine a distinction? too coarse?
 
    numbers -- EQ
@@ -270,32 +273,6 @@ therefore, they are the same thing
 
 ** pedagogical example
 
-   (see ~eq-cons~ on p3 of the paper)
-
-#+BEGIN_SRC ruby :exports both :results output
-  def same?(x,y)
-    saved_head = x[0]
-    x[0] = BasicObject.new
-    x[0] == y[0]
-  ensure
-    x[0] = saved_head
-  end
-
-  x = ["a"]; y = ["a"]
-
-  puts "x=x: #{same?(x,x)}"
-  puts "x=y: #{same?(x,y)}"
-#+END_SRC
-
-#+RESULTS:
-: x=x: true
-: x=y: false
-
-* what do we want equality to achieve in our model?
-  - equivalence relation (ie reflexive, symmetric, transitive)
-  - models object identity
-    - an object's identity doesn't change when its state changes
-  - doesn't distinguish between things not in our model
 * aside: equivalence relation
 reflexive:
 
@@ -315,9 +292,3 @@ Partitions the universe into /equivalence classes/
 ** symmetry causes particular problems for inheritance
 
 If $B$ is a subclass of $A$, and $A \equiv B$, does $B \equiv A$?
-* what is the solution?
-* why is this the right solution?
-* what are the implications?
-* any other worries?
-** laziness
-** performance cost of traversing large data structures
