@@ -153,14 +153,14 @@ for arbitrary $f$
 
    500 = 500
 
-   not a lot more to it.
-
 ** immutable lists
 
    [1,2,3] = [1,2,3]
 
 #+ATTR_REVEAL: :frag t
+   [a,b,c] = [a,b,c]
 
+#+ATTR_REVEAL: :frag t
    more generally, iterate over elements and recursively call egal
 
 ** mutable lists
@@ -190,21 +190,35 @@ compare ~eq-cons~ on p3 of the paper
 : x=x: true
 : x=y: false
 
-** examples
+** in summary:
 
-*** mutable objects
+   compare simple values by value
 
-*** immutable objects
+   compare *mutable* objects by reference
 
-*** immutable objects with references to mutable components
+   compare *immutable* objects by recursively comparing their components
+
 * implications
 ** immutability matters
 
-*** immutable views on mutable objects don't cut it
+#+BEGIN_NOTES
+immutable views on mutable objects don't cut it
+#+END_NOTES
 
 ** mutable lists & sets are rubbish
 
-*** lose much of the utility of having a compound if you can't easily compare it
+** mutable objects should store a single value
+
+#+BEGIN_NOTES
+
+It's too valuable to be able to compare lists and maps by value, that
+you want to use immutable values all the time.  Rather than using a
+mutable list, use a mutable cell containing an immutable list.
+
+#+END_NOTES
+
+** distributed systems
+
 * questions for discussion
 ** reference equality isn't perfect for mutable objects
 
@@ -213,89 +227,27 @@ conflict: can't have reference equality and the ability to simulate other object
 #+END_NOTES
 
 ** laziness
+
+#+BEGIN_SRC clojure
+  ;; clojure
+  (= (iterate inc 1) (iterate inc 1))
+#+END_SRC
+
+#+BEGIN_SRC haskell
+  -- haskell
+  cycle [1] == cycle [1]
+#+END_SRC
+
+** what about functions?
+
+   functions are values too.  can we compare functions?  should we?
+
 ** abstract data types & user-defined equality
-*** classic problem with cached hashcode field as a perf optimization
+** internally mutable fields
+
+   for example: cached hashcode field as a performance optimization
+
 ** closures and data defined using them
 *** applies equally to anonymous inner classes
-* what is the problem?
-  Why does equality matter?
 
-** too fine a distinction? too coarse?
-
-   numbers -- EQ
-
-   strings
-
-   "~EQ~ is often too fine, and ~EQUAL~ is often too coarse"
-
-   equality of lists, sets, maps
-
-** map lookup
-
-   map lookup depends on your equality relation
-
-   in Lisp, you need ~EQL~ for numbers but ~EQUAL~ for strings
-
-   this prevents the creation of a single map that takes arbitrary
-   keys
-
-   (useful for generic memoizing function)
-
-** reference equality
-   do ~x~ and ~y~ refer to the same location (i.e. object) in memory?
-
-   (this doesn't even make sense for some ~x~ and ~y~, such as
-   primitive ~int~ and ~float~ values)
-** value equality
-   do ~x~ and ~y~ have the same value?
-
-#+ATTR_REVEAL: :frag t
-   (at this moment in time)?
-
-** bitwise equality
-   reference equality for pointers
-
-   value equality for primitive types
-
-   Java's ~==~, Lisp's ~EQ~, Ruby's ~equal?~
-
-#+ATTR_REVEAL: :frag t
-   efficiently maps to native machine instructions
-
-#+ATTR_REVEAL: :frag t
-   semantically problematic
-
-** user-defined equality
-   give every object an ~equal~ method that the user can override
-** operational equivalence
-   can I distinguish ~x~ and ~y~ by calling methods on them?
-
-   /extensional equivalence/
-
-   (oppose /intensional equivalence/)
-
-   black box vs white box
-** identity of indiscernables
-   If there's no way to tell the difference between $x$ and $y$, then
-   $x = y$
-#+ATTR_REVEAL: :frag t   
-   if $x$ is a pink unicorn and $y$ is a green unicorn, they are not
-   the same, because $x$ is pink and $y$ is not pink
-#+ATTR_REVEAL: :frag t
-what about the /invisible pink unicorn/?
-
-#+BEGIN_NOTES
-(we know that she is invisible, because we can't see her; we have faith that she is pink)
-
-the invisible pink unicorn is indiscernible from the invisible green unicorn
-
-therefore, they are the same thing
-#+END_NOTES
-
-** pedagogical example
-
-* aside: equivalence relation
-
-** symmetry causes particular problems for inheritance
-
-If $B$ is a subclass of $A$, and $A \equiv B$, does $B \equiv A$?
+* fin

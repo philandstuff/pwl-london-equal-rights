@@ -69,25 +69,19 @@
 <a href="#sec-5">solution: egal</a>
 <ul>
 <li>
-<a href="#sec-5-1">object identity example</a>
+<a href="#sec-5-1">numbers</a>
 </li>
 <li>
-<a href="#sec-5-2">case #1: numbers</a>
+<a href="#sec-5-2">immutable lists</a>
 </li>
 <li>
-<a href="#sec-5-3">case #2: immutable lists</a>
+<a href="#sec-5-3">mutable lists</a>
 </li>
 <li>
-<a href="#sec-5-4">examples</a>
-<ul>
-<li>
-<a href="#sec-5-4-1">mutable objects</a>
+<a href="#sec-5-4">mutable lists</a>
 </li>
 <li>
-<a href="#sec-5-4-2">immutable objects</a>
-</li>
-<li>
-<a href="#sec-5-4-3">immutable objects with references to mutable components</a>
+<a href="#sec-5-5">in summary:</a>
 </li>
 </ul>
 <li>
@@ -95,16 +89,15 @@
 <ul>
 <li>
 <a href="#sec-6-1">immutability matters</a>
-<ul>
-<li>
-<a href="#sec-6-1-1">immutable views on mutable objects don't cut it</a>
 </li>
-</ul>
 <li>
 <a href="#sec-6-2">mutable lists &amp; sets are rubbish</a>
-<ul>
+</li>
 <li>
-<a href="#sec-6-2-1">lose much of the utility of having a compound if you can't easily compare it</a>
+<a href="#sec-6-3">mutable objects should store a single value</a>
+</li>
+<li>
+<a href="#sec-6-4">distributed systems</a>
 </li>
 </ul>
 <li>
@@ -117,55 +110,23 @@
 <a href="#sec-7-2">laziness</a>
 </li>
 <li>
-<a href="#sec-7-3">abstract data types &amp; user-defined equality</a>
+<a href="#sec-7-3">what about functions?</a>
+</li>
+<li>
+<a href="#sec-7-4">abstract data types &amp; user-defined equality</a>
+</li>
+<li>
+<a href="#sec-7-5">internally mutable fields</a>
+</li>
+<li>
+<a href="#sec-7-6">closures and data defined using them</a>
 <ul>
 <li>
-<a href="#sec-7-3-1">classic problem with cached hashcode field as a perf optimization</a>
+<a href="#sec-7-6-1">applies equally to anonymous inner classes</a>
 </li>
 </ul>
 <li>
-<a href="#sec-7-4">closures and data defined using them</a>
-<ul>
-<li>
-<a href="#sec-7-4-1">applies equally to anonymous inner classes</a>
-</li>
-</ul>
-<li>
-<a href="#sec-8">what is the problem?</a>
-<ul>
-<li>
-<a href="#sec-8-1">too fine a distinction? too coarse?</a>
-</li>
-<li>
-<a href="#sec-8-2">map lookup</a>
-</li>
-<li>
-<a href="#sec-8-3">reference equality</a>
-</li>
-<li>
-<a href="#sec-8-4">value equality</a>
-</li>
-<li>
-<a href="#sec-8-5">bitwise equality</a>
-</li>
-<li>
-<a href="#sec-8-6">user-defined equality</a>
-</li>
-<li>
-<a href="#sec-8-7">operational equivalence</a>
-</li>
-<li>
-<a href="#sec-8-8">identity of indiscernables</a>
-</li>
-<li>
-<a href="#sec-8-9">pedagogical example</a>
-</li>
-</ul>
-<li>
-<a href="#sec-9">aside: equivalence relation</a>
-<ul>
-<li>
-<a href="#sec-9-1">symmetry causes particular problems for inheritance</a>
+<a href="#sec-8">fin</a>
 </li>
 </ul>
 </section>
@@ -434,7 +395,39 @@ Related to "identity of indiscernibles"
 </section>
 <section id="sec-5-1" >
 
-<h3>object identity example</h3>
+<h3>numbers</h3>
+<p>
+500 = 500
+</p>
+
+</section>
+<section id="sec-5-2" >
+
+<h3>immutable lists</h3>
+<p>
+[1,2,3] = [1,2,3]
+</p>
+
+<p class="fragment">
+[a,b,c] = [a,b,c]
+</p>
+
+<p class="fragment">
+more generally, iterate over elements and recursively call egal
+</p>
+
+</section>
+<section id="sec-5-3" >
+
+<h3>mutable lists</h3>
+<p>
+[1,2,3] = [1,2,3]?
+</p>
+
+</section>
+<section id="sec-5-4" >
+
+<h3>mutable lists</h3>
 <p>
 compare <code>eq-cons</code> on p3 of the paper
 </p>
@@ -462,40 +455,22 @@ x=y: false
 </pre>
 
 </section>
-<section id="sec-5-2" >
+<section id="sec-5-5" >
 
-<h3>case #1: numbers</h3>
+<h3>in summary:</h3>
 <p>
-compare by value
+compare simple values by value
 </p>
 
-</section>
-<section id="sec-5-3" >
-
-<h3>case #2: immutable lists</h3>
 <p>
-iterate over ele
+compare <b>mutable</b> objects by reference
 </p>
 
+<p>
+compare <b>immutable</b> objects by recursively comparing their components
+</p>
 </section>
-<section id="sec-5-4" >
 
-<h3>examples</h3>
-</section>
-<section id="sec-5-4-1" >
-
-<h4>mutable objects</h4>
-
-</section>
-<section id="sec-5-4-2" >
-
-<h4>immutable objects</h4>
-
-</section>
-<section id="sec-5-4-3" >
-
-<h4>immutable objects with references to mutable components</h4>
-</section>
 </section>
 <section>
 <section id="sec-6" >
@@ -505,20 +480,35 @@ iterate over ele
 <section id="sec-6-1" >
 
 <h3>immutability matters</h3>
-</section>
-<section id="sec-6-1-1" >
-
-<h4>immutable views on mutable objects don't cut it</h4>
+<aside class="notes">
+<p>
+immutable views on mutable objects don't cut it
+</p>
+</aside>
 
 </section>
 <section id="sec-6-2" >
 
 <h3>mutable lists &amp; sets are rubbish</h3>
-</section>
-<section id="sec-6-2-1" >
 
-<h4>lose much of the utility of having a compound if you can't easily compare it</h4>
 </section>
+<section id="sec-6-3" >
+
+<h3>mutable objects should store a single value</h3>
+<aside class="notes">
+<p>
+It's too valuable to be able to compare lists and maps by value, that
+you want to use immutable values all the time.  Rather than using a
+mutable list, use a mutable cell containing an immutable list.
+</p>
+</aside>
+
+</section>
+<section id="sec-6-4" >
+
+<h3>distributed systems</h3>
+</section>
+
 </section>
 <section>
 <section id="sec-7" >
@@ -538,195 +528,55 @@ conflict: can't have reference equality and the ability to simulate other object
 <section id="sec-7-2" >
 
 <h3>laziness</h3>
+<div class="org-src-container">
+
+<pre  class="src src-clojure"><span style="color: #b22222;">;; </span><span style="color: #b22222;">clojure</span>
+(<span style="color: #483d8b;">=</span> (<span style="color: #483d8b;">iterate</span> inc 1) (<span style="color: #483d8b;">iterate</span> inc 1))
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-haskell"><span style="color: #b22222;">-- </span><span style="color: #b22222;">haskell</span>
+<span style="color: #0000ff;">cycle</span> [1] <span style="color: #a0522d;">==</span> cycle [1]
+</pre>
+</div>
+
 </section>
 <section id="sec-7-3" >
 
-<h3>abstract data types &amp; user-defined equality</h3>
-</section>
-<section id="sec-7-3-1" >
+<h3>what about functions?</h3>
+<p>
+functions are values too.  can we compare functions?  should we?
+</p>
 
-<h4>classic problem with cached hashcode field as a perf optimization</h4>
 </section>
 <section id="sec-7-4" >
 
+<h3>abstract data types &amp; user-defined equality</h3>
+</section>
+<section id="sec-7-5" >
+
+<h3>internally mutable fields</h3>
+<p>
+for example: cached hashcode field as a performance optimization
+</p>
+
+</section>
+<section id="sec-7-6" >
+
 <h3>closures and data defined using them</h3>
 </section>
-<section id="sec-7-4-1" >
+<section id="sec-7-6-1" >
 
 <h4>applies equally to anonymous inner classes</h4>
 </section>
+
 </section>
 <section>
 <section id="sec-8" >
 
-<h2>what is the problem?</h2>
-<p>
-Why does equality matter?
-</p>
-
-</section>
-<section id="sec-8-1" >
-
-<h3>too fine a distinction? too coarse?</h3>
-<p>
-numbers &#x2013; EQ
-</p>
-
-<p>
-strings
-</p>
-
-<p>
-"<code>EQ</code> is often too fine, and <code>EQUAL</code> is often too coarse"
-</p>
-
-<p>
-equality of lists, sets, maps
-</p>
-
-</section>
-<section id="sec-8-2" >
-
-<h3>map lookup</h3>
-<p>
-map lookup depends on your equality relation
-</p>
-
-<p>
-in Lisp, you need <code>EQL</code> for numbers but <code>EQUAL</code> for strings
-</p>
-
-<p>
-this prevents the creation of a single map that takes arbitrary
-keys
-</p>
-
-<p>
-(useful for generic memoizing function)
-</p>
-
-</section>
-<section id="sec-8-3" >
-
-<h3>reference equality</h3>
-<p>
-do <code>x</code> and <code>y</code> refer to the same location (i.e. object) in memory?
-</p>
-
-<p>
-(this doesn't even make sense for some <code>x</code> and <code>y</code>, such as
-primitive <code>int</code> and <code>float</code> values)
-</p>
-</section>
-<section id="sec-8-4" >
-
-<h3>value equality</h3>
-<p>
-do <code>x</code> and <code>y</code> have the same value?
-</p>
-
-<p class="fragment">
-(at this moment in time)?
-</p>
-
-</section>
-<section id="sec-8-5" >
-
-<h3>bitwise equality</h3>
-<p>
-reference equality for pointers
-</p>
-
-<p>
-value equality for primitive types
-</p>
-
-<p>
-Java's <code>==</code>, Lisp's <code>EQ</code>, Ruby's <code>equal?</code>
-</p>
-
-<p class="fragment">
-efficiently maps to native machine instructions
-</p>
-
-<p class="fragment">
-semantically problematic
-</p>
-
-</section>
-<section id="sec-8-6" >
-
-<h3>user-defined equality</h3>
-<p>
-give every object an <code>equal</code> method that the user can override
-</p>
-</section>
-<section id="sec-8-7" >
-
-<h3>operational equivalence</h3>
-<p>
-can I distinguish <code>x</code> and <code>y</code> by calling methods on them?
-</p>
-
-<p>
-<i>extensional equivalence</i>
-</p>
-
-<p>
-(oppose <i>intensional equivalence</i>)
-</p>
-
-<p>
-black box vs white box
-</p>
-</section>
-<section id="sec-8-8" >
-
-<h3>identity of indiscernables</h3>
-<p>
-If there's no way to tell the difference between \(x\) and \(y\), then
-\(x = y\)
-</p>
-<p class="fragment">
-if \(x\) is a pink unicorn and \(y\) is a green unicorn, they are not
-the same, because \(x\) is pink and \(y\) is not pink
-</p>
-<p class="fragment">
-what about the <i>invisible pink unicorn</i>?
-</p>
-
-<aside class="notes">
-<p>
-(we know that she is invisible, because we can't see her; we have faith that she is pink)
-</p>
-
-<p>
-the invisible pink unicorn is indiscernible from the invisible green unicorn
-</p>
-
-<p>
-therefore, they are the same thing
-</p>
-</aside>
-
-</section>
-<section id="sec-8-9" >
-
-<h3>pedagogical example</h3>
-</section>
-
-</section>
-<section>
-<section id="sec-9" >
-
-<h2>aside: equivalence relation</h2>
-</section>
-<section id="sec-9-1" >
-
-<h3>symmetry causes particular problems for inheritance</h3>
-<p>
-If \(B\) is a subclass of \(A\), and \(A \equiv B\), does \(B \equiv A\)?
-</p>
+<h2>fin</h2>
 </section>
 </section>
 </div>
