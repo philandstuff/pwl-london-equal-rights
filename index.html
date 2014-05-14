@@ -43,10 +43,13 @@
 <a href="#sec-2-2">oops</a>
 </li>
 <li>
-<a href="#sec-2-3">lists</a>
+<a href="#sec-2-3"><code>==</code>, <code>eql?</code>, or <code>equal?</code></a>
 </li>
 <li>
-<a href="#sec-2-4">in java.util.List terms&#x2026;</a>
+<a href="#sec-2-4">lists</a>
+</li>
+<li>
+<a href="#sec-2-5">in java.util.List terms&#x2026;</a>
 </li>
 </ul>
 <li>
@@ -110,19 +113,19 @@
 <a href="#sec-7-2">laziness</a>
 </li>
 <li>
-<a href="#sec-7-3">what about functions?</a>
+<a href="#sec-7-3">numeric conversions</a>
 </li>
 <li>
-<a href="#sec-7-4">abstract data types &amp; user-defined equality</a>
+<a href="#sec-7-4">what about functions?</a>
 </li>
 <li>
-<a href="#sec-7-5">internally mutable fields</a>
+<a href="#sec-7-5">abstract data types &amp; user-defined equality</a>
 </li>
 <li>
-<a href="#sec-7-6">closures and data defined using them</a>
-<ul>
+<a href="#sec-7-6">internally mutable fields</a>
+</li>
 <li>
-<a href="#sec-7-6-1">applies equally to anonymous inner classes</a>
+<a href="#sec-7-7">remember this rule?</a>
 </li>
 </ul>
 <li>
@@ -245,6 +248,34 @@ Oh noes!
 </section>
 <section id="sec-2-3" >
 
+<h3><code>==</code>, <code>eql?</code>, or <code>equal?</code></h3>
+<div class="org-src-container">
+
+<pre  class="src src-ruby"><span style="color: #b22222;"># </span><span style="color: #b22222;">ruby</span>
+h1 = { <span style="color: #8b2252;">"a"</span> =&gt; 100, <span style="color: #8b2252;">"b"</span> =&gt; 200, <span style="color: #008b8b;">:c</span> =&gt; <span style="color: #8b2252;">"c"</span> }
+h1[<span style="color: #8b2252;">"a"</span>]
+</pre>
+</div>
+
+<pre  class="fragment">
+100
+</pre>
+
+<div class="org-src-container">
+
+<pre  class="fragment">h1 = { <span style="color: #8b2252;">"a"</span> =&gt; 100, <span style="color: #8b2252;">"b"</span> =&gt; 200, <span style="color: #008b8b;">:c</span> =&gt; <span style="color: #8b2252;">"c"</span> }
+h1.compare_by_identity
+h1[<span style="color: #8b2252;">"a"</span>]
+</pre>
+</div>
+
+<pre  class="fragment">
+nil
+</pre>
+
+</section>
+<section id="sec-2-4" >
+
 <h3>lists</h3>
 <p>
 if x = <code>[1,2,3]</code>, and y = <code>[1,2,3]</code>:
@@ -263,7 +294,7 @@ can we answer this without resorting to "it depends"?
 </p>
 
 </section>
-<section id="sec-2-4" >
+<section id="sec-2-5" >
 
 <h3>in java.util.List terms&#x2026;</h3>
 <ul class="org-ul">
@@ -464,6 +495,10 @@ compare <b>mutable</b> objects by reference
 <p>
 compare <b>immutable</b> objects by recursively comparing their components
 </p>
+
+<p>
+(this is the one key idea of this paper)
+</p>
 </section>
 
 </section>
@@ -540,17 +575,33 @@ conflict: can't have reference equality and the ability to simulate other object
 </section>
 <section id="sec-7-3" >
 
+<h3>numeric conversions</h3>
+<p>
+does Integer 1 = Long 1?
+</p>
+
+<p class="fragment">
+does BigDecimal 1.0 = Long 1?
+</p>
+
+<p class="fragment">
+does BigDecimal 1.0 = BigDecimal 1.00?
+</p>
+
+</section>
+<section id="sec-7-4" >
+
 <h3>what about functions?</h3>
 <p>
 functions are values too.  can we compare functions?  should we?
 </p>
 
 </section>
-<section id="sec-7-4" >
+<section id="sec-7-5" >
 
 <h3>abstract data types &amp; user-defined equality</h3>
 </section>
-<section id="sec-7-5" >
+<section id="sec-7-6" >
 
 <h3>internally mutable fields</h3>
 <p>
@@ -558,13 +609,24 @@ for example: cached hashcode field as a performance optimization
 </p>
 
 </section>
-<section id="sec-7-6" >
+<section id="sec-7-7" >
 
-<h3>closures and data defined using them</h3>
-</section>
-<section id="sec-7-6-1" >
+<h3>remember this rule?</h3>
+<p>
+\(x \equiv y \implies f(x) \equiv f(y)\)
+</p>
 
-<h4>applies equally to anonymous inner classes</h4>
+<p>
+for arbitrary \(f\)
+</p>
+
+<div class="org-src-container">
+
+<pre  class="fragment">(<span style="color: #483d8b;">=</span> [1 2 3] '(1 2 3)) <span style="color: #b22222;">;; </span><span style="color: #b22222;">true</span>
+(<span style="color: #483d8b;">conj</span> [1 2 3] 4)     <span style="color: #b22222;">;; </span><span style="color: #b22222;">[1 2 3 4]</span>
+(<span style="color: #483d8b;">conj</span> '(1 2 3) 4)    <span style="color: #b22222;">;; </span><span style="color: #b22222;">(4 1 2 3)</span>
+</pre>
+</div>
 </section>
 
 </section>
