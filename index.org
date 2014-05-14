@@ -21,7 +21,6 @@
 * problem: many types of equality
 
 #+ATTR_HTML: :class reveal
-| C++       | pointer equality, overloaded ~==~ operator            |
 | Lisp      | ~EQ~, ~EQL~, ~EQUAL~, ~EQUALP~, ~STRING=~, ~CHAR=~... |
 | Smalltalk | ~=~, ~==~                                             |
 | Java      | ~==~, ~.equals()~                                     |
